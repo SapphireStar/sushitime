@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class GridBasedMovement : MonoBehaviour
 {
+    [HideInInspector]
+    public float HorizontalSpeed = 5.0f;
+    [HideInInspector]
+    public float VerticalSpeed = 3.5f;
     #region Path_Finding
     [SerializeField]
     protected GridMap m_gridMap;
@@ -31,12 +35,6 @@ public class GridBasedMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        #region TestMove
-        if(Input.GetKeyDown(KeyCode.Mouse0))
-        {
-            StartCoroutine(MoveTo(Camera.main.ScreenToWorldPoint(Input.mousePosition)));
-        }
-        #endregion
     }
     #region Path_Finding
     public void SetGridMap(GridMap map)
@@ -92,10 +90,19 @@ public class GridBasedMovement : MonoBehaviour
             Point nextTarget = pathStack.Pop();
             Vector3 targetPos = m_gridMap.GetPositionViaPoint(nextTarget);
 
-            while (Vector3.Distance(targetPos, transform.position) > 0.01f)
+            while (Vector3.Distance(targetPos, transform.position) > 0.1f)
             {
                 Vector3 moveDir = Vector3.Normalize(targetPos - transform.position);
-                transform.Translate(moveDir * Time.deltaTime);
+
+                if (Mathf.Abs(moveDir.x) > Mathf.Abs(moveDir.y))
+                {
+                    transform.Translate(moveDir * Time.deltaTime * HorizontalSpeed);
+                }
+                else
+                {
+                    transform.Translate(moveDir * Time.deltaTime * VerticalSpeed);
+                }
+
                 if (moveDir.x > 0 && transform.localScale.x < 0)
                 {
                     transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z);
@@ -111,6 +118,7 @@ public class GridBasedMovement : MonoBehaviour
             m_curPos = transform.position;
         }
     }
+
     protected virtual bool CheckGridUseSkillAvailable(Point target)
     {
 
@@ -125,10 +133,11 @@ public class GridBasedMovement : MonoBehaviour
             res &= false;
         }
 
+
         return res;
 
     }
-    protected virtual bool CheckGridWalkAvailable(Point target)
+    protected virtual bool CheckGridWalkAvailable(Point target, BFSTree cur)
     {
         bool res = true;
         if (target.X < 0 || target.Y < 0 || target.X > m_gridMap.StepWidth - 1 || target.Y > m_gridMap.StepHeight - 1)
@@ -141,12 +150,32 @@ public class GridBasedMovement : MonoBehaviour
             res &= false;
         }
 
+        //Enemy can't walk to neighbour point that upon it or below it
+        if(cur.Parent!=null)
+        {
+            Point prevPoint = cur.Parent.Value;
+            GridState prevState = m_gridMap.GetPointState(prevPoint);
+            GridState curState = m_gridMap.GetPointState(target);
+            if (prevPoint.X == target.X && Mathf.Abs(prevPoint.Y - target.Y) == 1)
+            {
+                if (prevState == curState && (prevState & GridState.None)>0)
+                {
+                    res &= false;
+                }
+                else if (((prevState & GridState.None)>0 && (curState & GridState.Ladder)>0)
+                    || ((prevState & GridState.Ladder)>0 && (curState & GridState.None)>0))
+                {
+                    res &= false;
+                }
+            }
+        }
+
         return res;
     }
 
     HashSet<Point> traversedNodes;
     Queue<BFSTree> queue;
-    protected Stack<Point> StartPathFinding(Point Start, Point Target)
+    public Stack<Point> StartPathFinding(Point Start, Point Target)
     {
         queue = new Queue<BFSTree>();
         traversedNodes = new HashSet<Point>();
@@ -159,7 +188,7 @@ public class GridBasedMovement : MonoBehaviour
         CollectBFSTree(StartNode);
         return res;
     }
-    protected Stack<Point> StartPathFinding(Point Start, Point Target, int remainSteps)
+    public Stack<Point> StartPathFinding(Point Start, Point Target, int remainSteps)
     {
         queue = new Queue<BFSTree>();
         traversedNodes = new HashSet<Point>();
@@ -180,7 +209,7 @@ public class GridBasedMovement : MonoBehaviour
             BFSTree cur = queue.Dequeue();
             Point curPoint = cur.Value;
 
-            if (!CheckGridWalkAvailable(cur.Value))
+            if (!CheckGridWalkAvailable(cur.Value, cur))
             {
                 continue;
             }
@@ -239,7 +268,7 @@ public class GridBasedMovement : MonoBehaviour
             BFSTree cur = queue.Dequeue();
             Point curPoint = cur.Value;
 
-            if (!CheckGridWalkAvailable(cur.Value))
+            if (!CheckGridWalkAvailable(cur.Value, cur))
             {
                 continue;
             }

@@ -154,7 +154,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CurMapData: {fileID: 11400000, guid: 9240bcc88eb33d54690900e4ec16a085, type: 2}
   CurMap: {fileID: 1610771439}
-  SelectedState: 0
+  SelectedState: 1
   scrollSpeed: 10
   edgeSize: 10
   zoomSpeed: 2

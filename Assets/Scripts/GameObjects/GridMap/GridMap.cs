@@ -6,14 +6,9 @@ using UnityEngine.EventSystems;
 
 public enum GridState
 {
-    None = 0,
-    Obstacle = 1,
-    Player = 2,
-    Goal = 3,
-    Star = 4,
-    DeathArea = 5,
-
-
+    None = 1,
+    Obstacle = 2,
+    Ladder = 4,
 
 }
 
@@ -215,10 +210,10 @@ public class GridMap : MonoSingleton<GridMap>
 
                 m_gridSpriteData.GetPrefabViaGridState((int)m_gridStateDict[point], out GameObject prefab);
                 GameObject go;
-                if (m_gridStateDict[point] == GridState.None)
+/*                if (m_gridStateDict[point] == GridState.None)
                 {
                     continue;
-                }
+                }*/
                 if (prefab == null)
                 {
                     go = Instantiate(m_blockPrefab, m_pointDict[point] + new Vector3(0, 0, 1), Quaternion.identity, transform);
@@ -283,6 +278,19 @@ public class GridMap : MonoSingleton<GridMap>
             return state;
         }
         return GridState.Obstacle;
+    }
+
+    public List<Point> GetPointsByState(GridState state)
+    {
+        List<Point> res = new List<Point>(); ;
+        foreach (var item in m_gridStateDict)
+        {
+            if(item.Value == state)
+            {
+                res.Add(item.Key);
+            }
+        }
+        return res;
     }
     public bool IsObstacle(GridState state)
     {
