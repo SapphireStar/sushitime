@@ -15,8 +15,12 @@ MonoBehaviour:
   m_GroupName: Popup
   m_Data:
     m_SerializedData: []
-  m_GUID: 82f6f0be8c418eb4da0449836549cf43
+  m_GUID: a7b8aacd3b1670a4696e711c1e87adc0
   m_SerializeEntries:
+  - m_GUID: 0f442b35523633743bd782bea7cdc265
+    m_Address: GameoverPopup
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   - m_GUID: 80a67a68886d5024b973405c874a497b
     m_Address: SettingsPopup
     m_ReadOnly: 0

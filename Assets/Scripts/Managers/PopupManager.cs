@@ -10,7 +10,8 @@ public enum PopupType
     PausePopup,
     StartDeliverPopup,
     SettingsPopup,
-    WinPopup
+    WinPopup,
+    GameoverPopup,
 }
 public class PopupData
 {

@@ -13,8 +13,6 @@ namespace Isekai.UI.Views.Screens
     public class LoadingScreen : Screen<LoadingViewModel>
     {
         [SerializeField]
-        private ProgressBarWidget m_progressBar;
-        [SerializeField]
         private Transform m_loadingAnim;
         [SerializeField]
         private TextMeshProUGUI m_loadingFinishNotify;
@@ -40,17 +38,9 @@ namespace Isekai.UI.Views.Screens
                 //curValue += Time.deltaTime * 0.4f;
                 await UniTask.Yield(this.GetCancellationTokenOnDestroy());
             }
-            m_progressBar.gameObject.SetActive(false);
             m_loadingAnim.gameObject.SetActive(false);
             m_loadingFinishNotify.gameObject.SetActive(true);
-            while (true)
-            {
-                if (Input.anyKeyDown)
-                {
-                    break;
-                }
-                await UniTask.Yield(this.GetCancellationTokenOnDestroy());
-            }
+
             ViewModel.LoadingComplete();
             
         }

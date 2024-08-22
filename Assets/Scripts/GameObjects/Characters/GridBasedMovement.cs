@@ -28,6 +28,11 @@ public class GridBasedMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Initialize();
+    }
+    public void Initialize()
+    {
+        StopAllCoroutines();
         m_curPos = transform.position;
         m_curPoint = m_gridMap.GetPointViaPosition(m_curPos);
     }
@@ -119,24 +124,8 @@ public class GridBasedMovement : MonoBehaviour
         }
     }
 
-    protected virtual bool CheckGridUseSkillAvailable(Point target)
-    {
 
-        bool res = true;
-        if (target.X < 0 || target.Y < 0 || target.X > m_gridMap.StepWidth - 1 || target.Y > m_gridMap.StepHeight - 1)
-        {
-            res &= false;
-        }
-
-        if (m_gridMap.IsObstacle(m_gridMap.GetPointState(target)))
-        {
-            res &= false;
-        }
-
-
-        return res;
-
-    }
+    
     protected virtual bool CheckGridWalkAvailable(Point target, BFSTree cur)
     {
         bool res = true;

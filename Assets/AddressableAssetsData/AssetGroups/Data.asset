@@ -15,10 +15,22 @@ MonoBehaviour:
   m_GroupName: Data
   m_Data:
     m_SerializedData: []
-  m_GUID: 380e4d8bb3025604bbc12a3bf188f0f4
+  m_GUID: 02807b300350a3447a009aa82ab56433
   m_SerializeEntries:
   - m_GUID: e5a61a7fc978d264284028233c857434
     m_Address: PlayerInput
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: cbf2dbd07879cef40af5de2677f6e0dd
+    m_Address: BlockSpriteData
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 4060f11d65b850141bc6835c5476cea5
+    m_Address: MapData 1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 9240bcc88eb33d54690900e4ec16a085
+    m_Address: MapData
     m_ReadOnly: 0
     m_SerializedLabels: []
   - m_GUID: 813baf7b48c01d54f929d2458ff96e19

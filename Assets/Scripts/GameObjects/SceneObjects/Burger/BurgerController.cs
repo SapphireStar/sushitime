@@ -4,84 +4,43 @@ using UnityEngine;
 
 public class BurgerController : MonoBehaviour
 {
-    public Transform[] Pieces;
-    public float PieceDownFactor = 0.9f;
-    public float MaxPieceDownDistance = 0.1f;
-    public float FallDownSpeed = 2;
+    public const float SLICE_HEIGHT = 0.75f;
 
-
-    private float m_stepCount;
-    private Coroutine fallDownHandler;
+    public SliceController[] Slices;
+    public Vector3[] SlicesPos;
+    public float SlicePadding = 0.375f;
+    public float PlaceOffset = 0;
+    
+    // Start is called before the first frame update
     void Start()
     {
+        
+        DitributePlaceForSlices();
         
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha0))
-        {
-            SetPiece(0);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            SetPiece(1);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            SetPiece(2);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            SetPiece(3);
-        }
-    }
-
-    public void SetPiece(int i)
-    {
-        Pieces[i].localPosition = new Vector3(Pieces[i].localPosition.x,
-                                              Pieces[i].localPosition.y - (MaxPieceDownDistance - PieceDownFactor * m_stepCount));
-        ++m_stepCount;
-        if(m_stepCount >=3)
-        {
-            m_stepCount = 0;
-            fallDown();
-            foreach (var item in Pieces)
-            {
-                item.localPosition = Vector3.zero;
-            }
-        }
-    }
-
-    //
-    void fallDown()
-    {
-        GridMap curMap = GridMap.Instance;
-        Point curPoint = curMap.GetPointViaPosition(transform.position);
-        while(curPoint.Y>=0)
-        {
-            curPoint = new Point(curPoint.X, curPoint.Y - 1);
-            if(curMap.GetPointState(curPoint) == GridState.None)
-            {
-                Vector3 targetPos = curMap.GetPositionViaPoint(curPoint) - Vector3.down * 0.375f;
-                fallDownHandler = StartCoroutine(StartFallDown(targetPos));
-                return;
-            }
-        }
-        //If can't find a platform, means it will reach the plate, link all the 
-        //slices to the plate, and plate will give all the slices a proper position
-        //to finally be placed
         
     }
-
-    IEnumerator StartFallDown(Vector3 target)
+    public Vector3 GetSlicePos(SliceController slice)
     {
-        while(Vector3.Distance(transform.position,target)>0.1f)
+        for (int i = 0; i < Slices.Length; i++)
         {
-            transform.Translate(Vector3.down * Time.deltaTime * FallDownSpeed);
-            yield return new WaitForEndOfFrame();
+            if(slice == Slices[i])
+            {
+                return SlicesPos[i];
+            }
         }
-        transform.position = target;
+        return Vector3.zero;
+    }
+    void DitributePlaceForSlices()
+    {
+        SlicesPos = new Vector3[Slices.Length];
+        for (int i = 0; i < Slices.Length; i++)
+        {
+            SlicesPos[i] = new Vector3(0, i * SlicePadding+PlaceOffset, 0);
+        }
     }
 }

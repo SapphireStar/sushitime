@@ -18,6 +18,13 @@ namespace Isekai.UI.Views.Screens
         {
             
         }
+        private void Update()
+        {
+            if(Input.GetKeyDown(KeyCode.Return))
+            {
+                OnNewGameClicked();
+            }
+        }
         public void OnNewGameClicked()
         {
             LevelManager.Instance.TransitionToScene("BattleScene").Forget();

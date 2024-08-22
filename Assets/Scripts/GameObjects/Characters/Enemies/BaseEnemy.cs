@@ -8,9 +8,8 @@ public class BaseEnemy : StateMachine
     public float NormalSpeed;
     public float LadderSpeed;
     public GridBasedMovement EnemyMotor;
-    public Stack<Point> curRoute;
 
-    private bool is_paused;
+    GameModel gameModel;
     // Start is called before the first frame update
     void Start()
     {
@@ -20,11 +19,31 @@ public class BaseEnemy : StateMachine
         EnemyMotor.HorizontalSpeed = NormalSpeed;
         EnemyMotor.VerticalSpeed = LadderSpeed;
 
+        gameModel = ModelManager.Instance.GetModel<GameModel>(typeof(GameModel));
+        gameModel.PropertyValueChanged += onGameModelChanged;
+    }
+    public virtual void Initalize()
+    {
         TransitionToState(new EnemyRandomState(this));
     }
     protected override void Update()
     {
         base.Update();
     }
+    private void OnDestroy()
+    {
+        gameModel.PropertyValueChanged -= onGameModelChanged;
 
+    }
+    void onGameModelChanged(object sender, PropertyValueChangedEventArgs e)
+    {
+        switch (e.PropertyName)
+        {
+            case "PlayerDead":
+                StopAllCoroutines();
+                break;
+            default:
+                break;
+        }
+    }
 }
