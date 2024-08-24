@@ -23,6 +23,24 @@ public class GameModel : Model
             ChangePropertyAndNotify<bool>(ref isPaused, value);
         }
     }
+    private bool isPickedUp;
+    public bool IsPickedUp
+    {
+        get => isPickedUp;
+        set
+        {
+            ChangePropertyAndNotify<bool>(ref isPickedUp, value);
+        }
+    }
+    private bool isClimbing;
+    public bool IsClimbing
+    {
+        get => isClimbing;
+        set
+        {
+            ChangePropertyAndNotify<bool>(ref isClimbing, value);
+        }
+    }
     public void Reset()
     {
         playerDead = false;

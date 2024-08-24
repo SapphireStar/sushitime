@@ -6,6 +6,7 @@ public class PlayerNormalState : BaseState
 {
     PlayerMovement owner;
     bool isNearLadder;
+    GameModel m_gamemodel;
     public PlayerNormalState(PlayerMovement owner)
     {
         this.owner = owner;
@@ -18,6 +19,8 @@ public class PlayerNormalState : BaseState
         Point curPoint = owner.CurMap.GetPointViaPosition(owner.transform.position);
         Vector3 pointPos = owner.CurMap.GetPositionViaPoint(curPoint);
         owner.transform.position = pointPos;
+        m_gamemodel = ModelManager.Instance.GetModel<GameModel>(typeof(GameModel));
+        m_gamemodel.IsClimbing = false;
     }
 
     public override void OnExit()
@@ -44,6 +47,7 @@ public class PlayerNormalState : BaseState
         //when player not out of boundaries, or not collide with obstacles, stop moving
         if (horizontalDir < 0)
         {
+            owner.transform.localScale = new Vector3(-1,1,1);
             GridState nextGrid = owner.CurMap.GetPointState(new Point(curPoint.X - 1, curPoint.Y));
             if (!((curPoint.X == 0
                 || (nextGrid & GridState.Obstacle) > 0) // check collide with obstacles
@@ -55,6 +59,7 @@ public class PlayerNormalState : BaseState
         }
         else if (horizontalDir > 0)
         {
+            owner.transform.localScale = new Vector3(1, 1, 1);
             GridState nextGrid = owner.CurMap.GetPointState(new Point(curPoint.X + 1, curPoint.Y));
             if (!((curPoint.X == owner.CurMap.StepWidth - 1
                 || (nextGrid & GridState.Obstacle) > 0) // check collide with obstacles
@@ -84,6 +89,9 @@ public class PlayerNormalState : BaseState
     //Used to detect whether player can climb the ladder and transition to climb state
     void handleClimbLadder()
     {
+        //If player picked up a slice, prohibit player 
+        if (m_gamemodel.IsPickedUp)
+            return;
         float verticalDir = Input.GetAxisRaw("Vertical");
         Point curPoint = owner.CurMap.GetPointViaPosition(owner.transform.position);
         Vector3 pointPos = owner.CurMap.GetPositionViaPoint(curPoint);

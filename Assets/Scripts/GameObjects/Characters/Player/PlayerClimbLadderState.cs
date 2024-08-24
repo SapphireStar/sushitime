@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerClimbLadderState : BaseState
 {
+    GameModel gamemodel;
     PlayerMovement owner;
     bool isLeftNearPlatform;
     bool isRightNearPlatform;
@@ -19,6 +20,8 @@ public class PlayerClimbLadderState : BaseState
         Point curPoint = owner.CurMap.GetPointViaPosition(owner.transform.position);
         Vector3 pointPos = owner.CurMap.GetPositionViaPoint(curPoint);
         owner.transform.position = pointPos;
+
+        ModelManager.Instance.GetModel<GameModel>(typeof(GameModel)).IsClimbing = true;
     }
 
     public override void OnExit()

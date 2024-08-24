@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_blockSpriteWrappers:
   - State: 2
-    GridSprite: {fileID: 21300000, guid: 69f6e22b3032e444e82b25512e6862e7, type: 3}
+    GridSprite: {fileID: 21300000, guid: e2d108b22ac819f41814dcd32e61857d, type: 3}
     GridPrefab: {fileID: 7218422773417359716, guid: 64f97106dbd237140900758f60f4ec16, type: 3}
   - State: 1
-    GridSprite: {fileID: 21300000, guid: 0804ad9191f7cb140af4959e97a72897, type: 3}
+    GridSprite: {fileID: 21300000, guid: 32d2925f1c1c91748a34160b58223101, type: 3}
     GridPrefab: {fileID: 7218422773417359716, guid: 6b105b010b2b4f84e91a8c10b6fd6343, type: 3}
   - State: 4
-    GridSprite: {fileID: 21300000, guid: 0804ad9191f7cb140af4959e97a72897, type: 3}
+    GridSprite: {fileID: 21300000, guid: 87da21e9054f2d441a32170b4d1640bf, type: 3}
     GridPrefab: {fileID: 7218422773417359716, guid: 06d67e96b86df144eab9fde95a451736, type: 3}
