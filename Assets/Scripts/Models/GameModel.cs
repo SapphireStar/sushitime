@@ -41,9 +41,19 @@ public class GameModel : Model
             ChangePropertyAndNotify<bool>(ref isClimbing, value);
         }
     }
+
     public void Reset()
     {
         playerDead = false;
         isPaused = false;
+        isClimbing = false;
+        isPickedUp = false;
+    }
+    public void RestartGame()
+    {
+        playerDead = false;
+        isPaused = false;
+        isClimbing = false;
+        isPickedUp = false;
     }
 }

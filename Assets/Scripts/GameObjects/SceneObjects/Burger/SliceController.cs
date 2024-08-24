@@ -10,6 +10,7 @@ public class SliceController : MonoBehaviour
     public float MaxPieceDownDistance = 0.1f;
     public float FallDownSpeed = 2;
     public float SlicePlaceOffset = 0.125f;
+    public SliceType CurSliceType;
 
 
     private float m_stepCount;
@@ -108,7 +109,8 @@ public class SliceController : MonoBehaviour
         //If can't find a platform, means it will reach the plate, link all the 
         //slices to the plate, and plate will give all the slices a proper position
         //to finally be placed
-        fallDownHandler = StartCoroutine(StartFallDown(findSushi()));
+        SushiController Sushi = findSushi();
+        fallDownHandler = StartCoroutine(StartFallDownToSushi(Sushi.GetSlicePos(),Sushi));
         isSet = true;
     }
 
@@ -152,10 +154,10 @@ public class SliceController : MonoBehaviour
         }
     }
 
-    Vector3 findSushi()
+    SushiController findSushi()
     {
         var hit = Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y), Vector2.down, 100.0f, LayerMask.GetMask("Sushi"));
-        return hit.collider.GetComponent<SushiController>().GetSlicePos();
+        return hit.collider.transform.GetComponent<SushiController>();
     }
 
     IEnumerator StartFallDown(Vector3 target)
@@ -179,6 +181,30 @@ public class SliceController : MonoBehaviour
         }
         transform.position = target;
         isFalling = false;
+    }
+    IEnumerator StartFallDownToSushi(Vector3 target, SushiController Sushi)
+    {
+        while (Vector3.Distance(transform.position, target) > 0.1f)
+        {
+            if (transform.position.y < -20)
+            {
+                Destroy(gameObject);
+            }
+            transform.Translate(Vector3.down * Time.deltaTime * FallDownSpeed);
+            //Check whether collide with other slice
+            var hit = Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y) - Vector2.up * SushiController.SLICE_HEIGHT / 2,
+                Vector2.down, 0.1f, LayerMask.GetMask("Piece"));
+            if (hit)
+            {
+                hit.collider.transform.parent.GetComponent<SliceController>().FallDown();
+                Bounce(target);
+            }
+            yield return new WaitForEndOfFrame();
+        }
+        transform.position = target;
+        transform.SetParent(Sushi.transform);
+        isFalling = false;
+        Sushi.SetSlice(CurSliceType);
     }
 
     //Slice will bounce if collide with other slices

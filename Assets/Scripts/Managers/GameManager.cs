@@ -1,5 +1,6 @@
 using Cysharp.Threading.Tasks;
 using Isekai.Managers;
+using MyPackage;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -26,7 +27,7 @@ public class GameManager : MonoSingleton<GameManager>
         m_Enemies = transform.GetComponentsInChildren<BaseEnemy>();
 
         RecordInitialPos();
-        StartCoroutine(WaitUntilStart());
+        StartCoroutine(GameStart());
     }
     //Record Characters' initial positions for restoring
     void RecordInitialPos()
@@ -88,6 +89,10 @@ public class GameManager : MonoSingleton<GameManager>
         m_GameModel.Reset();
         StartCoroutine(WaitUntilStart());
     }
+    public void PrepareSushi()
+    {
+
+    }
 
     void ResetGameObjects()
     {
@@ -105,4 +110,17 @@ public class GameManager : MonoSingleton<GameManager>
         ResumeGame();
         ResetGameObjects();
     }
+    IEnumerator GameStart()
+    {
+        RestorePos();
+        yield return new WaitForEndOfFrame();
+        EventSystem.Instance.SendEvent(typeof(GameStartEvent), new GameStartEvent());
+        yield return new WaitForSecondsRealtime(2);
+        ResumeGame();
+        ResetGameObjects();
+    }
+}
+public class GameStartEvent:IEventHandler
+{
+
 }
