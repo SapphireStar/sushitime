@@ -23,6 +23,15 @@ public class GameModel : Model
             ChangePropertyAndNotify<bool>(ref isPaused, value);
         }
     }
+    private bool isGameOver;
+    public bool IsGameOver
+    {
+        get => isGameOver;
+        set
+        {
+            ChangePropertyAndNotify<bool>(ref isGameOver, value);
+        }
+    }
     private bool isPickedUp;
     public bool IsPickedUp
     {
@@ -41,7 +50,24 @@ public class GameModel : Model
             ChangePropertyAndNotify<bool>(ref isClimbing, value);
         }
     }
-
+    private float maxPatienceBar;
+    public float MaxPatienceBar
+    {
+        get => maxPatienceBar;
+        set
+        {
+            ChangePropertyAndNotify<float>(ref maxPatienceBar, value);
+        }
+    }
+    private float patienceBar;
+    public float PatienceBar
+    {
+        get => patienceBar;
+        set
+        {
+            ChangePropertyAndNotify<float>(ref patienceBar, value);
+        }
+    }
     public void Reset()
     {
         playerDead = false;
@@ -55,5 +81,7 @@ public class GameModel : Model
         isPaused = false;
         isClimbing = false;
         isPickedUp = false;
+        PatienceBar = 100;
+        MaxPatienceBar = 100;
     }
 }

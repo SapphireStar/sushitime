@@ -1,5 +1,6 @@
 using Cysharp.Threading.Tasks;
 using Isekai.Managers;
+using Isekai.UI.ViewModels.Screens;
 using MyPackage;
 using System.Collections;
 using System.Collections.Generic;
@@ -23,6 +24,7 @@ public class GameManager : MonoSingleton<GameManager>
     void Start()
     {
         m_GameModel.PropertyValueChanged += onGameModelChanged;
+        ScreenManager.Instance.TransitionToInstant(Isekai.UI.EScreenType.HUDScreen, ELayerType.HUDLayer, new HUDScreenViewModel()).Forget();
 
         m_Enemies = transform.GetComponentsInChildren<BaseEnemy>();
 
@@ -62,14 +64,18 @@ public class GameManager : MonoSingleton<GameManager>
                     PauseGame();
                     PopupManager.Instance.ShowPopup<GameoverPopup>(PopupType.GameoverPopup, new PopupData()).Forget();
                 }
-
+                break;
+            case "IsGameOver":
+                PauseGame();
                 break;
         }
     }
     // Update is called once per frame
     void Update()
     {
-        
+        if (m_GameModel.IsPaused)
+            return;
+        decreasePatienceBar();
     }
 
     public void PauseGame()
@@ -103,6 +109,15 @@ public class GameManager : MonoSingleton<GameManager>
             m_Enemies[i].Initalize();
         }
     }
+    void decreasePatienceBar()
+    {
+        m_GameModel.PatienceBar -= Time.deltaTime;
+    }
+    //Increase PatienceBar when sushi delivered
+    public void IncreasePatienceBar()
+    {
+        m_GameModel.PatienceBar += 30;
+    }
     IEnumerator WaitUntilStart()
     {
         RestorePos();
@@ -113,6 +128,7 @@ public class GameManager : MonoSingleton<GameManager>
     IEnumerator GameStart()
     {
         RestorePos();
+        m_GameModel.RestartGame();
         yield return new WaitForEndOfFrame();
         EventSystem.Instance.SendEvent(typeof(GameStartEvent), new GameStartEvent());
         yield return new WaitForSecondsRealtime(2);
@@ -121,6 +137,11 @@ public class GameManager : MonoSingleton<GameManager>
     }
 }
 public class GameStartEvent:IEventHandler
+{
+
+}
+//Send this event to remind SushiGenerationController
+public class SushiCheckedEvent : IEventHandler
 {
 
 }

@@ -72,9 +72,7 @@ public class SushiGenerationController : MonoBehaviour
                 PrepareSushiAt(i);
             }
         }
-        
-
-       
+             
     }
 
     public void CheckSliceMissed()

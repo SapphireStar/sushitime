@@ -151,6 +151,8 @@ public class SushiController : MonoBehaviour
         
         SushiResultModel res = new SushiResultModel(correctSlice, correctOrder, finalScore);
         res.print();
+
+        GameManager.Instance.IncreasePatienceBar();
         return res;
     }
     public void DeliverSushi()
