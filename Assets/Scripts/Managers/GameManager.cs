@@ -65,6 +65,21 @@ public class GameManager : MonoSingleton<GameManager>
                     PopupManager.Instance.ShowPopup<GameoverPopup>(PopupType.GameoverPopup, new PopupData()).Forget();
                 }
                 break;
+            case "PatienceBar":
+                if(m_GameModel.PatienceBar<=0)
+                {
+                    PauseGame();
+                    m_GameModel.IsGameOver = true;
+                    PopupManager.Instance.ShowPopup<GameoverPopup>(PopupType.GameoverPopup, (new PopupData(null,()=> { Time.timeScale = 1; LevelManager.Instance.TransitionToScene("BattleScene").Forget(); }))).Forget();
+                }
+                break;
+            case "FullBar":
+                if(m_GameModel.FullBar>=100)
+                {
+                    PauseGame();
+                    PopupManager.Instance.ShowPopup<WinPopup>(PopupType.WinPopup, new PopupData()).Forget();
+                }
+                break;
             case "IsGameOver":
                 PauseGame();
                 break;
@@ -95,6 +110,11 @@ public class GameManager : MonoSingleton<GameManager>
         m_GameModel.Reset();
         StartCoroutine(WaitUntilStart());
     }
+    public void ResetGame()
+    {
+        m_GameModel.RestartGame();
+        StartCoroutine(GameStart());
+    }
     public void PrepareSushi()
     {
 
@@ -117,6 +137,18 @@ public class GameManager : MonoSingleton<GameManager>
     public void IncreasePatienceBar()
     {
         m_GameModel.PatienceBar += 30;
+        if(m_GameModel.PatienceBar>100)
+        {
+            m_GameModel.PatienceBar = 100;
+        }
+    }
+    public void IncreaseFullBar(SushiResultModel result)
+    {
+        m_GameModel.FullBar += 20;
+    }
+    public void CheckSushiResult(SushiResultModel result)
+    {
+        m_GameModel.Score += result.FinalScore;
     }
     IEnumerator WaitUntilStart()
     {

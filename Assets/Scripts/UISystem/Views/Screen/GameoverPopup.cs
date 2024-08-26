@@ -10,8 +10,17 @@ public class GameoverPopup : MonoBehaviour, IPopup
     {
         if(Input.GetKeyDown(KeyCode.Return))
         {
-            GameManager.Instance.RestartGame();
-            Destroy(gameObject);
+            if(Data.OnConfirmClicked == null)
+            {
+                GameManager.Instance.RestartGame();
+                Destroy(gameObject);
+            }
+            else
+            {
+                GameManager.Instance.ResetGame();
+                Data.OnConfirmClicked.Invoke();
+                Destroy(gameObject);
+            }
         }
     }
     public void OnCancelClicked()

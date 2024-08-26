@@ -68,6 +68,33 @@ public class GameModel : Model
             ChangePropertyAndNotify<float>(ref patienceBar, value);
         }
     }
+    private float fullBar;
+    public float FullBar
+    {
+        get => fullBar;
+        set
+        {
+            ChangePropertyAndNotify<float>(ref fullBar, value);
+        }
+    }
+    private float maxFullBar;
+    public float MaxFullBar
+    {
+        get => maxFullBar;
+        set
+        {
+            ChangePropertyAndNotify<float>(ref maxFullBar, value);
+        }
+    }
+    private int score;
+    public int Score
+    {
+        get => score;
+        set
+        {
+            ChangePropertyAndNotify<int>(ref score, value);
+        }
+    }
     public void Reset()
     {
         playerDead = false;
@@ -83,5 +110,8 @@ public class GameModel : Model
         isPickedUp = false;
         PatienceBar = 100;
         MaxPatienceBar = 100;
+        Score = 0;
+        FullBar = 0;
+        maxFullBar = 100;
     }
 }

@@ -177,6 +177,19 @@ public class SushiGenerationController : MonoBehaviour
                 var slice = requireTypes.Dequeue();
                 prepareSlice(slice.Item1, slice.Item2);
             }
+
+            
+/*            for (int i = 0; i < Sushis.Length; i++)
+            {
+                foreach (var item in Sushis[i].PreferredSliceTypes)
+                {
+                    var tuple = new Tuple<SliceType, int>(item, CurSliceData.GetLayer(item));
+                    if (!requireTypes.Contains(tuple))
+                    {
+                        requireTypes.Enqueue(tuple);
+                    }
+                }
+            }*/
         }
     }
     public void PrepareSushiAt(int index)
@@ -198,6 +211,7 @@ public class SushiGenerationController : MonoBehaviour
     {
         for (int i = 0; i < Sushis.Length; i++)
         {
+
             if (Sushis[i].IsFull)
             {
                 PrepareSushiAt(i);

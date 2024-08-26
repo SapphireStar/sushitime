@@ -154,6 +154,8 @@ public class SushiController : MonoBehaviour
         res.print();
 
         GameManager.Instance.IncreasePatienceBar();
+        GameManager.Instance.IncreaseFullBar(res);
+        GameManager.Instance.CheckSushiResult(res);
         return res;
     }
     public void DeliverSushi()

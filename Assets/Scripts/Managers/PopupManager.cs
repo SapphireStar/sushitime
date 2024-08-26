@@ -15,8 +15,18 @@ public enum PopupType
 }
 public class PopupData
 {
+    public PopupData()
+    {
+
+    }
+
     public Action OnCancelClicked;
     public Action OnConfirmClicked;
+    public PopupData(Action onCancelClicked, Action onConfirmClicked)
+    {
+        OnCancelClicked = onCancelClicked;
+        OnConfirmClicked = onConfirmClicked;
+    }
 }
 public class PopupManager : MonoSingleton<PopupManager>
 {
