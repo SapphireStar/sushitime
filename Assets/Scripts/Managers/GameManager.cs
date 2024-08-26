@@ -129,7 +129,7 @@ public class GameManager : MonoSingleton<GameManager>
     {
         RestorePos();
         m_GameModel.RestartGame();
-        yield return new WaitForEndOfFrame();
+        yield return new WaitForSeconds(0.1f);
         EventSystem.Instance.SendEvent(typeof(GameStartEvent), new GameStartEvent());
         yield return new WaitForSecondsRealtime(2);
         ResumeGame();
@@ -144,4 +144,26 @@ public class GameStartEvent:IEventHandler
 public class SushiCheckedEvent : IEventHandler
 {
 
+}
+public class SliceSetEvent :IEventHandler
+{
+    public Vector3 pos;
+    public SliceType sliceType;
+    public SliceSetEvent(Vector3 pos, SliceType slicetype)
+    {
+        this.pos = pos;
+        sliceType = slicetype;
+    }
+}
+public class SliceDropEvent : IEventHandler
+{
+    public Vector3 lastPos;
+    public Vector3 nowPos;
+    public SliceType sliceType;
+    public SliceDropEvent(Vector3 lastpos ,Vector3 nowpos, SliceType slicetype)
+    {
+        lastPos = lastpos;
+        nowPos = nowpos;
+        sliceType = slicetype;
+    }
 }

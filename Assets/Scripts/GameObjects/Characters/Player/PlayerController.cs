@@ -1,3 +1,4 @@
+using MyPackage;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -110,6 +111,8 @@ public class PlayerController : MonoBehaviour
             sliceTransform.SetParent(sliceParent);
             sliceTransform.GetComponent<SliceController>().DropDown();
             sliceTransform = null;
+            sliceTransform.GetComponent<SliceController>().RefreshPosition = pos;
+            EventSystem.Instance.SendEvent<SliceDropEvent>(typeof(SliceDropEvent), new SliceDropEvent(sliceLastPos, pos, sliceTransform.GetComponent<SliceController>().CurSliceType));
         }
     }
     void restoreSlicePos()

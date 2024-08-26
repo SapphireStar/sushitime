@@ -1,3 +1,4 @@
+using MyPackage;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,10 +10,10 @@ public class SliceController : MonoBehaviour
     public float PieceDownFactor = 0.1f;
     public float MaxPieceDownDistance = 0.1f;
     public float FallDownSpeed = 2;
-    public float SlicePlaceOffset = 0.125f;
+    public float SlicePlaceOffset = SushiController.SLICE_HEIGHT/3.0f;
     public SliceType CurSliceType;
 
-
+    public Vector3 RefreshPosition;
     private float m_stepCount;
     private Coroutine fallDownHandler;
     //Doesn't allow player step on silices when it is falling
@@ -34,6 +35,7 @@ public class SliceController : MonoBehaviour
         Point curpoint = GridMap.Instance.GetPointViaPosition(transform.position);
 
         transform.position = GridMap.Instance.GetPositionViaPoint(curpoint) - Vector3.up * SlicePlaceOffset;
+        RefreshPosition = transform.position;
     }
 
     // Update is called once per frame
@@ -112,6 +114,7 @@ public class SliceController : MonoBehaviour
         SushiController Sushi = findSushi();
         fallDownHandler = StartCoroutine(StartFallDownToSushi(Sushi.GetSlicePos(),Sushi));
         isSet = true;
+        EventSystem.Instance.SendEvent(typeof(SliceSetEvent), new SliceSetEvent(RefreshPosition, CurSliceType));
     }
 
     //Called by player after pick up this slice, it will restore the state of slice

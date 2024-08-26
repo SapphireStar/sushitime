@@ -36,6 +36,7 @@ public class SushiController : MonoBehaviour
     public const float SLICE_HEIGHT = 0.75f;
     [InspectorName("Total slices that Sushi has")]
     public const int TOTAL_SLICES = 3;
+    public const int SLICE_SCALE = 3;
 
     [InspectorName("Offsets for fall down slices")]
     public Vector3[] SlicesPos;
@@ -168,12 +169,12 @@ public class SushiController : MonoBehaviour
         Transform lastslice = slices[TOTAL_SLICES - 1].transform;
         for (int i = 0; i < waypoints.Count; i++)
         {
-            Vector3 target = waypoints[i].localPosition;
-            while (Vector3.Distance(lastslice.localPosition, target) > 0.1f)
+            Vector3 target = waypoints[i].position;
+            while (Vector3.Distance(lastslice.position, target) > 0.1f)
             {
                 foreach (var item in slices)
                 {
-                    item.transform.Translate(Vector3.Normalize(target-lastslice.localPosition) * Time.deltaTime * SushiMoveSpeed);
+                    item.transform.Translate(Vector3.Normalize(target-lastslice.position) * Time.deltaTime * SushiMoveSpeed);
                 }
                 yield return new WaitForEndOfFrame();
             }      
