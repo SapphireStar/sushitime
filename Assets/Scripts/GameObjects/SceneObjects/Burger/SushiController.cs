@@ -48,7 +48,7 @@ public class SushiController : MonoBehaviour
     public SpriteRenderer[] SliceIcons;
     public SpriteRenderer SushiIcon;
         
-    public SliceType[] PreferredSliceTypes;
+    public List<SliceType> PreferredSliceTypes;
     public List<SliceType> CurSliceTypes;
 
     [InspectorName("Waypoints that the complete Sushi will follow")]
@@ -64,8 +64,13 @@ public class SushiController : MonoBehaviour
     {
         get =>isFull;
     }
+    private bool isDelivered;
+    public bool IsDelivered
+    {
+        get => isDelivered;
+    }
 
-    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -76,12 +81,13 @@ public class SushiController : MonoBehaviour
     }
     public void Initialize(SliceType[] preferredSliceTypes ,SliceData data)
     {
+        isDelivered = false;
         isFull = false;
         m_sliceCount = 0;
-        PreferredSliceTypes = new SliceType[TOTAL_SLICES];
+        PreferredSliceTypes = new List<SliceType>();
         for (int i = 0; i < TOTAL_SLICES; i++)
         {
-            PreferredSliceTypes[i] = preferredSliceTypes[i];
+            PreferredSliceTypes.Add( preferredSliceTypes[i]);
         }
         for (int i = 0; i < SliceIcons.Length; i++)
         {
@@ -127,21 +133,21 @@ public class SushiController : MonoBehaviour
 
     //Return a  SushiResultModel object, containing result of the combination of sushi
     //Do some effect after checking
-    public SushiResultModel CheckSushiResult(List<SliceType> lastSliceTypes)
+    public SushiResultModel CheckSushiResult(List<SliceType> lastSliceTypes, List<SliceType> orderedSliceTypes)
     {
         int correctSlice = 0;
         int correctOrder = 0;
         int finalScore = 0;
-        for (int i = 0; i < PreferredSliceTypes.Length; i++)
+        for (int i = 0; i < orderedSliceTypes.Count; i++)
         {
-            if(PreferredSliceTypes[i] == lastSliceTypes[i])
+            if(orderedSliceTypes[i] == lastSliceTypes[i])
             {
                 ++correctOrder;
             }
         }
-        for (int i = 0; i < PreferredSliceTypes.Length; i++)
+        for (int i = 0; i < orderedSliceTypes.Count; i++)
         {
-            if(lastSliceTypes.Contains(PreferredSliceTypes[i]))
+            if(lastSliceTypes.Contains(orderedSliceTypes[i]))
             {
                 ++correctSlice;
                 lastSliceTypes.Remove(PreferredSliceTypes[i]);
@@ -158,15 +164,25 @@ public class SushiController : MonoBehaviour
         GameManager.Instance.CheckSushiResult(res);
         return res;
     }
+    //Customer eats the sushi
+    public void ConsumeSushi(GameObject slice)
+    {
+        Destroy(slice);
+    }
     public void DeliverSushi()
     {
         List<SliceType> lastSliceType = new List<SliceType>();
         lastSliceType.AddRange(CurSliceTypes);
         CurSliceTypes.Clear();
-        StartCoroutine(StartDeliver(lastSliceType));
+        //record ordered slicetype for checking, otherwise will check with new order
+        List<SliceType> orderedSliceType = new List<SliceType>();
+        orderedSliceType.AddRange(PreferredSliceTypes);
+        StartCoroutine(StartDeliver(lastSliceType, orderedSliceType));
     }
-    IEnumerator StartDeliver(List<SliceType> lastSliceTypes)
+    IEnumerator StartDeliver(List<SliceType> lastSliceTypes, List<SliceType> orderedSliceTypes)
     {
+
+
         SliceController[] slices = GetComponentsInChildren<SliceController>();
         Transform lastslice = slices[TOTAL_SLICES - 1].transform;
         for (int i = 0; i < waypoints.Count; i++)
@@ -183,8 +199,9 @@ public class SushiController : MonoBehaviour
         }
         foreach (var item in slices)
         {
-            item.transform.SetParent(transform.parent);
+            ConsumeSushi(item.gameObject);
         }
-        CheckSushiResult(lastSliceTypes);
+        CheckSushiResult(lastSliceTypes, orderedSliceTypes);
+        isDelivered = true;
     }
 }

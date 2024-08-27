@@ -15,7 +15,7 @@ MonoBehaviour:
   m_GroupName: Data
   m_Data:
     m_SerializedData: []
-  m_GUID: 02807b300350a3447a009aa82ab56433
+  m_GUID: 2c40574966bf38a4fa7c1627c113cca3
   m_SerializeEntries:
   - m_GUID: e5a61a7fc978d264284028233c857434
     m_Address: PlayerInput
@@ -31,6 +31,10 @@ MonoBehaviour:
     m_SerializedLabels: []
   - m_GUID: 9240bcc88eb33d54690900e4ec16a085
     m_Address: MapData
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: b5d780f7903d95146a2066f517e40408
+    m_Address: NewSliceData
     m_ReadOnly: 0
     m_SerializedLabels: []
   - m_GUID: 813baf7b48c01d54f929d2458ff96e19

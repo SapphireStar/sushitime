@@ -47,6 +47,10 @@ public class SliceController : MonoBehaviour
     {
         isSet = false;
     }
+    public void Initialize(SushiGenerationController generation)
+    {
+
+    }
 
     public void SetPiece(Transform piece)
     {
@@ -165,6 +169,7 @@ public class SliceController : MonoBehaviour
 
     IEnumerator StartFallDown(Vector3 target)
     {
+        EventSystem.Instance.SendEvent<SliceFallEvent>(typeof(SliceFallEvent), new SliceFallEvent(transform.position,target,CurSliceType));
         while(Vector3.Distance(transform.position,target)>0.1f)
         {
             if(transform.position.y<-10)

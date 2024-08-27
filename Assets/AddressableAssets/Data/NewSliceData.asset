@@ -14,27 +14,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Slices:
   - Type: 1
-    icon: {fileID: 21300000, guid: 32d2925f1c1c91748a34160b58223101, type: 3}
+    icon: {fileID: 21300000, guid: fc826dac3e9e9444882c577189f22910, type: 3}
     Prefab: {fileID: 5272300300648480849, guid: 8bd9d3757dfa7434496588687fec67cf, type: 3}
     Layer: 0
   - Type: 2
-    icon: {fileID: 21300000, guid: 87da21e9054f2d441a32170b4d1640bf, type: 3}
+    icon: {fileID: 21300000, guid: dea6634d2ccd9c9479a3d837cced7135, type: 3}
     Prefab: {fileID: 5272300300648480849, guid: aa356ffa8996ff2498848236f0a3238a, type: 3}
     Layer: 1
   - Type: 4
-    icon: {fileID: 21300000, guid: 0804ad9191f7cb140af4959e97a72897, type: 3}
+    icon: {fileID: 21300000, guid: 0d8694f622d2fa84bacc008813a8ab6e, type: 3}
     Prefab: {fileID: 5272300300648480849, guid: d634fd16603c03a4db5960ea502d36c7, type: 3}
     Layer: 1
   - Type: 8
-    icon: {fileID: 21300000, guid: 69f6e22b3032e444e82b25512e6862e7, type: 3}
+    icon: {fileID: 21300000, guid: 4ae530156ea3d164a8e17a35a2d72d6e, type: 3}
     Prefab: {fileID: 5272300300648480849, guid: 91327eb1dbd229d4d8470f8436b5651e, type: 3}
     Layer: 1
   - Type: 16
-    icon: {fileID: 21300000, guid: 22e6693e75dbecb4c9a26c99a78b74d7, type: 3}
+    icon: {fileID: 21300000, guid: 306fd7c95c3e26d42b178f2347034b3e, type: 3}
     Prefab: {fileID: 5272300300648480849, guid: e8850cc7bf6f9c54bb4f2bcc73fa1d70, type: 3}
     Layer: 2
   - Type: 32
-    icon: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+    icon: {fileID: 21300000, guid: f22c954175bc5864c8a1d4c9d51665f5, type: 3}
     Prefab: {fileID: 5272300300648480849, guid: bd6fd0cb95693fe40b6b372d17589440, type: 3}
     Layer: 2
   - Type: 64

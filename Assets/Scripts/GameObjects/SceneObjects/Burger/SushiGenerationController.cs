@@ -19,6 +19,7 @@ public class SushiGenerationController : MonoBehaviour
     public Transform[] Layer1;
     public Transform[] Layer2;
     public List<List<Point>> RemainPlaces;
+    public List<List<Point>> OriginPlaces;
     private Queue<Tuple<SliceType,int>> requireTypes;
 
     GridMap m_gridMap;
@@ -37,7 +38,8 @@ public class SushiGenerationController : MonoBehaviour
         EventSystem.Instance.Subscribe<SliceDropEvent>(typeof(SliceDropEvent), handleSliceDropEvent);
         EventSystem.Instance.Subscribe<SliceSetEvent>(typeof(SliceSetEvent), handleSliceSetEvent);
 
-        RemainPlaces = new List<List<Point>>(TotalTypesOfSlices);
+        RemainPlaces = new List<List<Point>>();
+        OriginPlaces = new List<List<Point>>();
         requireTypes = new Queue<Tuple<SliceType, int>>();
         //Use TotalTypesOfSlices to determine how many arrays needed to store the refresh points for each type of slices
         for (int i = 0; i < TotalTypesOfSlices; i++)
@@ -66,8 +68,13 @@ public class SushiGenerationController : MonoBehaviour
                 default:
                     break;
             }
-
         }
+        for (int i = 0; i < RemainPlaces.Count; i++)
+        {
+            OriginPlaces.Add(new List<Point>());
+            OriginPlaces[i].AddRange(RemainPlaces[i]);
+        }
+
     }
 
     // Update is called once per frame
@@ -83,18 +90,41 @@ public class SushiGenerationController : MonoBehaviour
         EventSystem.Instance.Unsubscribe<GameStartEvent>(typeof(GameStartEvent), prepareSushi);
         EventSystem.Instance.Unsubscribe<SliceDropEvent>(typeof(SliceDropEvent), handleSliceDropEvent);
         EventSystem.Instance.Unsubscribe<SliceSetEvent>(typeof(SliceSetEvent), handleSliceSetEvent);
+        EventSystem.Instance.Unsubscribe<SliceFallEvent>(typeof(SliceFallEvent), handleSliceFallEvent);
 
     }
     void handleSliceDropEvent(SliceDropEvent e)
     {
         int layer = CurSliceData.GetLayer(e.sliceType);
         RemainPlaces[layer].Remove(m_gridMap.GetPointViaPosition(e.lastPos));
-        RemainPlaces[layer].Add(m_gridMap.GetPointViaPosition(e.nowPos));
+        if (OriginPlaces[layer].Contains(m_gridMap.GetPointViaPosition(e.nowPos)))
+        {
+            RemainPlaces[layer].Add(m_gridMap.GetPointViaPosition(e.nowPos));
+        } 
     }
     void handleSliceSetEvent(SliceSetEvent e)
     {
         int layer = CurSliceData.GetLayer(e.sliceType);
         RemainPlaces[layer].Add(m_gridMap.GetPointViaPosition(e.pos));
+    }
+    void handleSliceFallEvent(SliceFallEvent e)
+    {
+        foreach (var item in RemainPlaces)
+        {
+            if (item.Contains(m_gridMap.GetPointViaPosition(e.CurPos)))
+            {
+                item.Remove(m_gridMap.GetPointViaPosition(e.CurPos));
+            }
+            
+        }
+        for (int i = 0; i < OriginPlaces.Count; i++)
+        {
+            if (OriginPlaces[i].Contains(m_gridMap.GetPointViaPosition(e.LastPos)))
+            {
+                RemainPlaces[i].Add(m_gridMap.GetPointViaPosition(e.LastPos));
+            }
+        }
+
     }
     void prepareSushi(IEventHandler e)
     {
@@ -212,7 +242,7 @@ public class SushiGenerationController : MonoBehaviour
         for (int i = 0; i < Sushis.Length; i++)
         {
 
-            if (Sushis[i].IsFull)
+            if (Sushis[i].IsDelivered)
             {
                 PrepareSushiAt(i);
             }

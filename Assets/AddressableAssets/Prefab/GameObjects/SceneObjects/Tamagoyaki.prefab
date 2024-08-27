@@ -75,8 +75,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.6981132, g: 0.68589085, b: 0.14159843, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 20c6c5c82950b3d4fb2cb089073fd3ec, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 5272300300648480847}
   - component: {fileID: 5272300300648480846}
   m_Layer: 0
-  m_Name: Slice2
+  m_Name: Tamagoyaki
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -182,7 +182,8 @@ MonoBehaviour:
   MaxPieceDownDistance: 0.1
   FallDownSpeed: 2
   SlicePlaceOffset: 0.125
-  CurSliceType: 2
+  CurSliceType: 32
+  RefreshPosition: {x: 0, y: 0, z: 0}
 --- !u!1 &5272300301185009306
 GameObject:
   m_ObjectHideFlags: 0
@@ -258,7 +259,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a4752ca7ce02f304d97da2e8c3ff8be1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -382,8 +383,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.754717, g: 0.52212054, b: 0.2242791, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 49e92510d561873429ef2dc55946b12f, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -506,8 +507,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.5566038, g: 0.39880565, b: 0.08139017, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 68b963d193d509c418bdc7d52851e33f, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

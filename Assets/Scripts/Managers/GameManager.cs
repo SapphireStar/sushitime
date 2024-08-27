@@ -199,3 +199,15 @@ public class SliceDropEvent : IEventHandler
         sliceType = slicetype;
     }
 }
+public class SliceFallEvent : IEventHandler
+{
+    public Vector3 LastPos;
+    public Vector3 CurPos;
+    public SliceType sliceType;
+    public SliceFallEvent(Vector3 lastPos, Vector3 curPos, SliceType slicetype)
+    {
+        this.LastPos = lastPos;
+        this.CurPos = curPos;
+        sliceType = slicetype;
+    }
+}

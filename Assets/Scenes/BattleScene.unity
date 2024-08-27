@@ -1582,7 +1582,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TypesOfSlicesPerLayer: 3
   TotalTypesOfSlices: 3
-  SliceRefreshTime: 5
+  SliceRefreshTime: 20
   Sushis:
   - {fileID: 2670208430326378662}
   - {fileID: 653237111}
