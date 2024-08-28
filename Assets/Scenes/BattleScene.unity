@@ -1641,6 +1641,9 @@ MonoBehaviour:
   - {fileID: 675639362}
   - {fileID: 287519915}
   - {fileID: 474461226}
+  OrderSushi0: 010000000200000010000000
+  OrderSushi1: 010000000400000020000000
+  OrderSushi2: 010000000800000040000000
 --- !u!1001 &1613024931
 PrefabInstance:
   m_ObjectHideFlags: 0

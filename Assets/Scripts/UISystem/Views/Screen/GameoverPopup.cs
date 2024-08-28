@@ -8,7 +8,7 @@ public class GameoverPopup : MonoBehaviour, IPopup
     public PopupData Data { get; set; }
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Return))
+        if(Input.GetKeyDown(KeyCode.Z))
         {
             if(Data.OnConfirmClicked == null)
             {

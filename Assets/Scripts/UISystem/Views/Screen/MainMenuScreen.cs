@@ -20,7 +20,7 @@ namespace Isekai.UI.Views.Screens
         }
         private void Update()
         {
-            if(Input.GetKeyDown(KeyCode.Return))
+            if(Input.GetKeyDown(KeyCode.Z))
             {
                 OnNewGameClicked();
             }

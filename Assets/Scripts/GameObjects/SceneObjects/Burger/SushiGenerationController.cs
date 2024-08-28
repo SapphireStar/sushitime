@@ -21,6 +21,10 @@ public class SushiGenerationController : MonoBehaviour
     public List<List<Point>> RemainPlaces;
     public List<List<Point>> OriginPlaces;
     private Queue<Tuple<SliceType,int>> requireTypes;
+    [InspectorName("Orders of Sushi")]
+    public SliceType[] OrderSushi0;
+    public SliceType[] OrderSushi1;
+    public SliceType[] OrderSushi2;
 
     GridMap m_gridMap;
     GameModel m_gameModel;
@@ -132,18 +136,58 @@ public class SushiGenerationController : MonoBehaviour
         Array values = Enum.GetValues(typeof(SliceType));
         for (int i = 0; i < Sushis.Length; i++)
         {
+            /*            SliceType[] res = new SliceType[SushiController.TOTAL_SLICES];
+                        res[0] = SliceType.Rice;
+                        for (int j = 1; j < SushiController.TOTAL_SLICES; j++)
+                        {
+                            SliceType randomSlice = (SliceType)values.GetValue(random.Next(1+(j-1)* TypesOfSlicesPerLayer, 1 + j * TypesOfSlicesPerLayer));
+                            res[j] = randomSlice;
+                        }*/
             SliceType[] res = new SliceType[SushiController.TOTAL_SLICES];
-            res[0] = SliceType.Rice;
-            for (int j = 1; j < SushiController.TOTAL_SLICES; j++)
+            switch (i)
             {
-                SliceType randomSlice = (SliceType)values.GetValue(random.Next(1+(j-1)* TypesOfSlicesPerLayer, 1 + j * TypesOfSlicesPerLayer));
-                res[j] = randomSlice;
+                case 0:
+                    res = OrderSushi0;
+                    break;
+                case 1:
+                    res = OrderSushi1;
+                    break;
+                case 2:
+                    res = OrderSushi2;
+                    break;
             }
             Sushis[i].Initialize(res, CurSliceData);
             prepareSlice(res);
         }
     }
+    public void PrepareSushiAt(int index)
+    {
+        /*        Array values = Enum.GetValues(typeof(SliceType));
 
+                SliceType[] res = new SliceType[SushiController.TOTAL_SLICES];
+                res[0] = SliceType.Rice;
+                for (int j = 1; j < SushiController.TOTAL_SLICES; j++)
+                {
+                    int rand = random.Next(1 + (j - 1) * TypesOfSlicesPerLayer, 1 + j * TypesOfSlicesPerLayer);
+                    SliceType randomSlice = (SliceType)values.GetValue(rand);
+                    res[j] = randomSlice;
+                }*/
+        SliceType[] res = new SliceType[SushiController.TOTAL_SLICES];
+        switch (index)
+        {
+            case 0:
+                res = OrderSushi0;
+                break;
+            case 1:
+                res = OrderSushi1;
+                break;
+            case 2:
+                res = OrderSushi2;
+                break;
+        }
+        Sushis[index].Initialize(res, CurSliceData);
+        RequestSliceRefresh(res);
+    }
     void prepareSlice(SliceType[] types)
     {
         for (int i = 0; i < types.Length; i++)
@@ -223,21 +267,7 @@ public class SushiGenerationController : MonoBehaviour
             }*/
         }
     }
-    public void PrepareSushiAt(int index)
-    {
-        Array values = Enum.GetValues(typeof(SliceType));
 
-        SliceType[] res = new SliceType[SushiController.TOTAL_SLICES];
-        res[0] = SliceType.Rice;
-        for (int j = 1; j < SushiController.TOTAL_SLICES; j++)
-        {
-            int rand = random.Next(1 + (j - 1) * TypesOfSlicesPerLayer, 1 + j * TypesOfSlicesPerLayer);
-            SliceType randomSlice = (SliceType)values.GetValue(rand); 
-            res[j] = randomSlice;
-        }
-        Sushis[index].Initialize(res, CurSliceData);
-        RequestSliceRefresh(res);
-    }
     void checkSushiDelivered()
     {
         for (int i = 0; i < Sushis.Length; i++)
