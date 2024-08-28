@@ -73,10 +73,10 @@ public class PlayerController : MonoBehaviour
     void pickDropSlice()
     {
         //prohibit player pickup during climbing
-        if(m_gamemodel.IsClimbing)
+/*        if(m_gamemodel.IsClimbing)
         {
             return;
-        }
+        }*/
         if (!isInPickedup)
         {
 
@@ -110,9 +110,9 @@ public class PlayerController : MonoBehaviour
             sliceTransform.position = pos;
             sliceTransform.SetParent(sliceParent);
             sliceTransform.GetComponent<SliceController>().DropDown();
-            sliceTransform = null;
             sliceTransform.GetComponent<SliceController>().RefreshPosition = pos;
             EventSystem.Instance.SendEvent<SliceDropEvent>(typeof(SliceDropEvent), new SliceDropEvent(sliceLastPos, pos, sliceTransform.GetComponent<SliceController>().CurSliceType));
+            sliceTransform = null;
         }
     }
     void restoreSlicePos()

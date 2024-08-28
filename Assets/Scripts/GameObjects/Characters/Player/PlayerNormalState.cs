@@ -89,9 +89,9 @@ public class PlayerNormalState : BaseState
     //Used to detect whether player can climb the ladder and transition to climb state
     void handleClimbLadder()
     {
-        //If player picked up a slice, prohibit player 
+/*        //If player picked up a slice, prohibit player 
         if (m_gamemodel.IsPickedUp)
-            return;
+            return;*/
         float verticalDir = Input.GetAxisRaw("Vertical");
         Point curPoint = owner.CurMap.GetPointViaPosition(owner.transform.position);
         Vector3 pointPos = owner.CurMap.GetPositionViaPoint(curPoint);

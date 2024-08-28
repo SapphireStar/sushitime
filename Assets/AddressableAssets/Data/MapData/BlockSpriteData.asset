@@ -20,5 +20,5 @@ MonoBehaviour:
     GridSprite: {fileID: 21300000, guid: 32d2925f1c1c91748a34160b58223101, type: 3}
     GridPrefab: {fileID: 7218422773417359716, guid: 6b105b010b2b4f84e91a8c10b6fd6343, type: 3}
   - State: 4
-    GridSprite: {fileID: 21300000, guid: 87da21e9054f2d441a32170b4d1640bf, type: 3}
+    GridSprite: {fileID: 21300000, guid: fadcec6dc6232cb41825c05f89d491a2, type: 3}
     GridPrefab: {fileID: 7218422773417359716, guid: 06d67e96b86df144eab9fde95a451736, type: 3}

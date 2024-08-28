@@ -37,6 +37,7 @@ public class SushiGenerationController : MonoBehaviour
         EventSystem.Instance.Subscribe<GameStartEvent>(typeof(GameStartEvent), prepareSushi);
         EventSystem.Instance.Subscribe<SliceDropEvent>(typeof(SliceDropEvent), handleSliceDropEvent);
         EventSystem.Instance.Subscribe<SliceSetEvent>(typeof(SliceSetEvent), handleSliceSetEvent);
+        EventSystem.Instance.Subscribe<SliceFallEvent>(typeof(SliceFallEvent), handleSliceFallEvent);
 
         RemainPlaces = new List<List<Point>>();
         OriginPlaces = new List<List<Point>>();

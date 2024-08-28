@@ -178,11 +178,10 @@ public class SushiController : MonoBehaviour
         List<SliceType> orderedSliceType = new List<SliceType>();
         orderedSliceType.AddRange(PreferredSliceTypes);
         StartCoroutine(StartDeliver(lastSliceType, orderedSliceType));
+        isDelivered = true;
     }
     IEnumerator StartDeliver(List<SliceType> lastSliceTypes, List<SliceType> orderedSliceTypes)
     {
-
-
         SliceController[] slices = GetComponentsInChildren<SliceController>();
         Transform lastslice = slices[TOTAL_SLICES - 1].transform;
         for (int i = 0; i < waypoints.Count; i++)
@@ -202,6 +201,6 @@ public class SushiController : MonoBehaviour
             ConsumeSushi(item.gameObject);
         }
         CheckSushiResult(lastSliceTypes, orderedSliceTypes);
-        isDelivered = true;
+        
     }
 }

@@ -58,8 +58,8 @@ public class SliceController : MonoBehaviour
         {
             if(Pieces[i] == piece)
             {
-                Pieces[i].localPosition = new Vector3(Pieces[i].localPosition.x,
-                                                      Pieces[i].localPosition.y - (MaxPieceDownDistance - PieceDownFactor * m_stepCount * MaxPieceDownDistance));
+                Pieces[i].GetChild(0).localPosition = new Vector3(Pieces[i].GetChild(0).localPosition.x,
+                                                      Pieces[i].GetChild(0).localPosition.y - (MaxPieceDownDistance - PieceDownFactor * m_stepCount * MaxPieceDownDistance));
                 ++m_stepCount;
                 if (m_stepCount >= 4)
                 {
@@ -79,9 +79,9 @@ public class SliceController : MonoBehaviour
         m_stepCount = 0;
         foreach (var item in Pieces)
         {
-            item.localPosition = new Vector3(item.localPosition.x, 0, 0);
+            item.GetChild(0).localPosition = new Vector3(item.GetChild(0).localPosition.x, 0, 0);
         }
-        transform.position -= Vector3.down * MaxPieceDownDistance;
+        //transform.position -= Vector3.down * MaxPieceDownDistance;
 
         isFalling = true;
         foreach (var item in Pieces)
@@ -128,7 +128,7 @@ public class SliceController : MonoBehaviour
         foreach (var item in Pieces)
         {
             item.GetComponent<PieceController>().Initialize();
-            item.localPosition = new Vector3(item.localPosition.x, 0, 0);
+            item.GetChild(0).localPosition = new Vector3(item.GetChild(0).localPosition.x, 0, 0);
 
             item.GetComponent<BoxCollider2D>().enabled = false;
         }
@@ -146,16 +146,16 @@ public class SliceController : MonoBehaviour
     {
         foreach (var item in Pieces)
         {
-            Color origin = item.GetComponent<SpriteRenderer>().color;
+            Color origin = item.GetChild(0).GetComponent<SpriteRenderer>().color;
             if (isTransparent)
             {
                 
-                item.GetComponent<SpriteRenderer>().color = new Color(origin.r,origin.g,origin.b, 0.5f);
+                item.GetChild(0).GetComponent<SpriteRenderer>().color = new Color(origin.r,origin.g,origin.b, 0.5f);
 
             }
             else
             {
-                item.GetComponent<SpriteRenderer>().color = new Color(origin.r, origin.g, origin.b, 1f);
+                item.GetChild(0).GetComponent<SpriteRenderer>().color = new Color(origin.r, origin.g, origin.b, 1f);
 
             }
         }
