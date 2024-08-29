@@ -25,6 +25,8 @@ public class SushiGenerationController : MonoBehaviour
     public SliceType[] OrderSushi0;
     public SliceType[] OrderSushi1;
     public SliceType[] OrderSushi2;
+    //check map has the food on orders, is not, add to requestqueue
+    private HashSet<SliceType> m_orderedSlices;
 
     GridMap m_gridMap;
     GameModel m_gameModel;
@@ -46,6 +48,7 @@ public class SushiGenerationController : MonoBehaviour
         RemainPlaces = new List<List<Point>>();
         OriginPlaces = new List<List<Point>>();
         requireTypes = new Queue<Tuple<SliceType, int>>();
+        initializeOrderedSlices();
         //Use TotalTypesOfSlices to determine how many arrays needed to store the refresh points for each type of slices
         for (int i = 0; i < TotalTypesOfSlices; i++)
         {
@@ -101,19 +104,35 @@ public class SushiGenerationController : MonoBehaviour
     void handleSliceDropEvent(SliceDropEvent e)
     {
         int layer = CurSliceData.GetLayer(e.sliceType);
-        RemainPlaces[layer].Remove(m_gridMap.GetPointViaPosition(e.lastPos));
-        if (OriginPlaces[layer].Contains(m_gridMap.GetPointViaPosition(e.nowPos)))
+        RemainPlaces[layer].Remove(m_gridMap.GetPointViaPosition(e.nowPos));
+        if (OriginPlaces[layer].Contains(m_gridMap.GetPointViaPosition(e.lastPos)))
         {
-            RemainPlaces[layer].Add(m_gridMap.GetPointViaPosition(e.nowPos));
+            RemainPlaces[layer].Add(m_gridMap.GetPointViaPosition(e.lastPos));
         } 
     }
     void handleSliceSetEvent(SliceSetEvent e)
     {
         int layer = CurSliceData.GetLayer(e.sliceType);
-        RemainPlaces[layer].Add(m_gridMap.GetPointViaPosition(e.pos));
+        if (OriginPlaces[layer].Contains(m_gridMap.GetPointViaPosition(e.pos)))
+        {
+            RemainPlaces[layer].Add(m_gridMap.GetPointViaPosition(e.pos));
+        }
     }
+    //BUG: if a slice falls down because of another slice, then it will override its lastpos
+    //as a RemainPlace, but in fact it was placed by the another slice
     void handleSliceFallEvent(SliceFallEvent e)
     {
+        if (!e.IsHitByOther)
+        {
+            for (int i = 0; i < OriginPlaces.Count; i++)
+            {
+                if (OriginPlaces[i].Contains(m_gridMap.GetPointViaPosition(e.LastPos)))
+                {
+                    RemainPlaces[i].Add(m_gridMap.GetPointViaPosition(e.LastPos));
+                }
+            }
+        }
+
         foreach (var item in RemainPlaces)
         {
             if (item.Contains(m_gridMap.GetPointViaPosition(e.CurPos)))
@@ -122,14 +141,25 @@ public class SushiGenerationController : MonoBehaviour
             }
             
         }
-        for (int i = 0; i < OriginPlaces.Count; i++)
-        {
-            if (OriginPlaces[i].Contains(m_gridMap.GetPointViaPosition(e.LastPos)))
-            {
-                RemainPlaces[i].Add(m_gridMap.GetPointViaPosition(e.LastPos));
-            }
-        }
 
+
+    }
+    //Initialize the orderedSlices, so that system know what food to generate
+    void initializeOrderedSlices()
+    {
+        m_orderedSlices = new HashSet<SliceType>();
+        foreach (var item in OrderSushi0)
+        {
+            m_orderedSlices.Add(item);
+        }
+        foreach (var item in OrderSushi1)
+        {
+            m_orderedSlices.Add(item);
+        }
+        foreach (var item in OrderSushi2)
+        {
+            m_orderedSlices.Add(item);
+        }
     }
     void prepareSushi(IEventHandler e)
     {
@@ -233,12 +263,37 @@ public class SushiGenerationController : MonoBehaviour
         }
 
     }
+    void checkNeededFood()
+    {
+        int total = 0;
+        foreach (var item in RemainPlaces)
+        {
+            total += item.Count;
+        }
+        Debug.Log($"total remain places:{total}");
+        var slices = transform.GetComponentsInChildren<SliceController>();
+        Debug.Log(slices.Length);
+        HashSet<SliceType> curSlices = new HashSet<SliceType>();
+        foreach (var item in slices)
+        {
+            curSlices.Add(item.CurSliceType);
+        }
+        foreach (var item in m_orderedSlices)
+        {
+            if (!curSlices.Contains(item))
+            {
+                requireTypes.Enqueue(new Tuple<SliceType, int>(item,CurSliceData.GetLayer(item)));
+            }
+        }
+    }
     void checkMissedSlices()
     {
+        
         //determine which type of slice is missed, if missed, spawn it to the map.
         m_curRefreshTime -= Time.deltaTime;
         if (m_curRefreshTime <= 0)
         {
+            checkNeededFood();
             m_curRefreshTime = SliceRefreshTime;
             if(requireTypes.Count<=0)
             {

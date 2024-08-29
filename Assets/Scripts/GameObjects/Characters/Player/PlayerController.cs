@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
     private bool isInPickedup;
     private bool isOnPlate = true;
     private bool isAwayOtherSlice;
+    private bool isOnPlatform;
     private bool canDropSlice;
     //Original parent of the picked up slice
     private Transform sliceParent;
@@ -55,6 +56,7 @@ public class PlayerController : MonoBehaviour
         stepSlice();
         detectPlate();
         detectOtherSlice();
+        detectPlatform();
         decideIsCanDrop();
         if (Input.GetKeyDown(KeyCode.Z))
         {
@@ -89,7 +91,10 @@ public class PlayerController : MonoBehaviour
                 sliceTransform = hit.collider.transform.parent;
                 //do not pickup when slice is falling
                 if (sliceTransform.GetComponent<SliceController>().IsFalling)
+                {
+                    sliceTransform = null;
                     return;
+                }
 
                 isInPickedup = true;
                 m_gamemodel.IsPickedUp = true;
@@ -156,11 +161,27 @@ public class PlayerController : MonoBehaviour
             isAwayOtherSlice = true;
         }
     }
+    void detectPlatform()
+    {
+        Point point = GridMap.Instance.GetPointViaPosition(transform.position);
+        if((GridMap.Instance.GetPointState(new Point(point.X - 1,point.Y))== GridState.None||
+            GridMap.Instance.GetPointState(new Point(point.X - 1, point.Y)) == GridState.Ladder)
+            &&
+            (GridMap.Instance.GetPointState(new Point(point.X + 1, point.Y)) == GridState.None||
+            GridMap.Instance.GetPointState(new Point(point.X + 1, point.Y)) == GridState.Ladder))
+        {
+                isOnPlatform = true;
+        }
+        else
+        {
+            isOnPlatform = false;
+        }
+    }
 
     //Decide if player can drop slice according to plate and other slices
     void decideIsCanDrop()
     {
-        if (isAwayOtherSlice && isOnPlate)
+        if (isAwayOtherSlice && isOnPlate && isOnPlatform)
         {
             canDropSlice = true;
             if (sliceTransform != null)

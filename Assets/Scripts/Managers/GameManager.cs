@@ -181,7 +181,7 @@ public class SliceSetEvent :IEventHandler
 {
     public Vector3 pos;
     public SliceType sliceType;
-    public SliceSetEvent(Vector3 pos, SliceType slicetype)
+    public SliceSetEvent(Vector3 pos, SliceType slicetype, bool isHitByOther)
     {
         this.pos = pos;
         sliceType = slicetype;
@@ -204,10 +204,12 @@ public class SliceFallEvent : IEventHandler
     public Vector3 LastPos;
     public Vector3 CurPos;
     public SliceType sliceType;
-    public SliceFallEvent(Vector3 lastPos, Vector3 curPos, SliceType slicetype)
+    public bool IsHitByOther;
+    public SliceFallEvent(Vector3 lastPos, Vector3 curPos, SliceType slicetype, bool isHitByOther)
     {
         this.LastPos = lastPos;
         this.CurPos = curPos;
         sliceType = slicetype;
+        this.IsHitByOther = isHitByOther;
     }
 }

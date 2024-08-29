@@ -72,7 +72,7 @@ public class SliceController : MonoBehaviour
     }
 
     //
-    public void FallDown()
+    public void FallDown(bool isHitByOther = false)
     {
         if (isFalling || isSet)
             return;
@@ -97,7 +97,7 @@ public class SliceController : MonoBehaviour
             if((curMap.GetPointState(curPoint) & GridState.None) > 0)
             {
                 Vector3 targetPos = curMap.GetPositionViaPoint(curPoint) - Vector3.up * SlicePlaceOffset;
-                fallDownHandler = StartCoroutine(StartFallDown(targetPos));
+                fallDownHandler = StartCoroutine(StartFallDown(targetPos, isHitByOther));
                 return;
             }
             //If slice is placed on a ladder, then it should land on a ladder grid that has platform neighbour
@@ -107,7 +107,7 @@ public class SliceController : MonoBehaviour
                 || (curMap.GetPointState(new Point(curPoint.X + 1, curPoint.Y)) & GridState.None) > 0)
                 {
                     Vector3 targetPos = curMap.GetPositionViaPoint(curPoint) - Vector3.up * SlicePlaceOffset;
-                    fallDownHandler = StartCoroutine(StartFallDown(targetPos));
+                    fallDownHandler = StartCoroutine(StartFallDown(targetPos, isHitByOther));
                     return;
                 }
             }
@@ -118,7 +118,7 @@ public class SliceController : MonoBehaviour
         SushiController Sushi = findSushi();
         fallDownHandler = StartCoroutine(StartFallDownToSushi(Sushi.GetSlicePos(),Sushi));
         isSet = true;
-        EventSystem.Instance.SendEvent(typeof(SliceSetEvent), new SliceSetEvent(RefreshPosition, CurSliceType));
+        EventSystem.Instance.SendEvent(typeof(SliceSetEvent), new SliceSetEvent(transform.position, CurSliceType, isHitByOther));
     }
 
     //Called by player after pick up this slice, it will restore the state of slice
@@ -167,9 +167,9 @@ public class SliceController : MonoBehaviour
         return hit.collider.transform.GetComponent<SushiController>();
     }
 
-    IEnumerator StartFallDown(Vector3 target)
+    IEnumerator StartFallDown(Vector3 target, bool isHitByOther = false)
     {
-        EventSystem.Instance.SendEvent<SliceFallEvent>(typeof(SliceFallEvent), new SliceFallEvent(transform.position,target,CurSliceType));
+        EventSystem.Instance.SendEvent<SliceFallEvent>(typeof(SliceFallEvent), new SliceFallEvent(transform.position,target,CurSliceType,isHitByOther));
         while(Vector3.Distance(transform.position,target)>0.1f)
         {
             if(transform.position.y<-10)
@@ -182,7 +182,7 @@ public class SliceController : MonoBehaviour
                 Vector2.down, 0.1f, LayerMask.GetMask("Piece"));
             if(hit)
             {
-                hit.collider.transform.parent.GetComponent<SliceController>().FallDown();
+                hit.collider.transform.parent.GetComponent<SliceController>().FallDown(true);
                 Bounce(target);
             }
             yield return new WaitForEndOfFrame();
