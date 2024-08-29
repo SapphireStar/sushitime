@@ -28,6 +28,11 @@ public class SliceController : MonoBehaviour
     {
         get => isSet;
     }
+    private bool isPickup;
+    public bool IsPickup
+    {
+        get => isPickup;
+    }
     void Start()
     {
         Initialize();
@@ -124,6 +129,7 @@ public class SliceController : MonoBehaviour
     //Called by player after pick up this slice, it will restore the state of slice
     public void PickUp()
     {
+        isPickup = true;
         m_stepCount = 0;
         foreach (var item in Pieces)
         {
@@ -136,6 +142,7 @@ public class SliceController : MonoBehaviour
     }
     public void DropDown()
     {
+        isPickup = false;
         transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x),transform.localScale.y,1);
         foreach (var item in Pieces)
         {

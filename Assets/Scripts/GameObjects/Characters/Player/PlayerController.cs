@@ -197,10 +197,10 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.layer == 7)
+/*        if (collision.gameObject.layer == 7)
         {
             m_gamemodel.PlayerDead = true;
-        }
+        }*/
     }
 
     private void OnDrawGizmos()

@@ -38,7 +38,6 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -583,6 +582,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 361391901}
     m_Modifications:
+    - target: {fileID: 1720424881784596819, guid: 6085f6ee56eee8142a4295a5244e8dc1, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: c6da2e22c37345542b8a11ad2da3747d, type: 3}
     - target: {fileID: 2670208430911793040, guid: 6085f6ee56eee8142a4295a5244e8dc1, type: 3}
       propertyPath: m_Name
       value: Burger (4)
@@ -2485,6 +2488,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 361391901}
     m_Modifications:
+    - target: {fileID: 1720424881784596819, guid: 6085f6ee56eee8142a4295a5244e8dc1, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 00bda520a9238174e8f8b9a273842710, type: 3}
     - target: {fileID: 2670208430911793040, guid: 6085f6ee56eee8142a4295a5244e8dc1, type: 3}
       propertyPath: m_Name
       value: Burger (5)
@@ -3042,6 +3049,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 361391901}
     m_Modifications:
+    - target: {fileID: 1720424881784596819, guid: 6085f6ee56eee8142a4295a5244e8dc1, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 007898f9b761d694d9177eff35f6c72a, type: 3}
     - target: {fileID: 2670208430911793040, guid: 6085f6ee56eee8142a4295a5244e8dc1, type: 3}
       propertyPath: m_Name
       value: Burger
