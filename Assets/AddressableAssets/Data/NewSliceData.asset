@@ -18,7 +18,7 @@ MonoBehaviour:
     Prefab: {fileID: 5272300300648480849, guid: 8bd9d3757dfa7434496588687fec67cf, type: 3}
     Layer: 0
   - Type: 2
-    icon: {fileID: 21300000, guid: dea6634d2ccd9c9479a3d837cced7135, type: 3}
+    icon: {fileID: 21300000, guid: 92bc8664b8c7e4e40ad1e3c1fbb7ee6c, type: 3}
     Prefab: {fileID: 5272300300648480849, guid: aa356ffa8996ff2498848236f0a3238a, type: 3}
     Layer: 1
   - Type: 4
@@ -26,11 +26,11 @@ MonoBehaviour:
     Prefab: {fileID: 5272300300648480849, guid: d634fd16603c03a4db5960ea502d36c7, type: 3}
     Layer: 1
   - Type: 8
-    icon: {fileID: 21300000, guid: 4ae530156ea3d164a8e17a35a2d72d6e, type: 3}
+    icon: {fileID: 21300000, guid: b5bfd9f5bda41d64ab77ebd58c5ff857, type: 3}
     Prefab: {fileID: 5272300300648480849, guid: 91327eb1dbd229d4d8470f8436b5651e, type: 3}
     Layer: 1
   - Type: 16
-    icon: {fileID: 21300000, guid: 306fd7c95c3e26d42b178f2347034b3e, type: 3}
+    icon: {fileID: 21300000, guid: 3e0a4dee530d2f44ca123c1c958fdc6a, type: 3}
     Prefab: {fileID: 5272300300648480849, guid: e8850cc7bf6f9c54bb4f2bcc73fa1d70, type: 3}
     Layer: 2
   - Type: 32
@@ -38,6 +38,6 @@ MonoBehaviour:
     Prefab: {fileID: 5272300300648480849, guid: bd6fd0cb95693fe40b6b372d17589440, type: 3}
     Layer: 2
   - Type: 64
-    icon: {fileID: 10911, guid: 0000000000000000f000000000000000, type: 0}
+    icon: {fileID: 21300000, guid: 4148f740dbc17bd43943fcb7eb095f02, type: 3}
     Prefab: {fileID: 5272300300648480849, guid: 435a04f924906224e9bdab3936ca6b52, type: 3}
     Layer: 2

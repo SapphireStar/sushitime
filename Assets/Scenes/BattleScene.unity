@@ -38,6 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2657,7 +2658,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TypesOfSlicesPerLayer: 3
   TotalTypesOfSlices: 3
-  SliceRefreshTime: 15
+  SliceRefreshTime: 10
   Sushis:
   - {fileID: 2670208430326378662}
   - {fileID: 653237111}
@@ -3260,16 +3261,20 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8844583357349216525, guid: a804ebc030893f340a832652923f8500, type: 3}
+      propertyPath: EatCD
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8844583357349216525, guid: a804ebc030893f340a832652923f8500, type: 3}
       propertyPath: CurMap
       value: 
       objectReference: {fileID: 1183767530}
     - target: {fileID: 8844583357349216525, guid: a804ebc030893f340a832652923f8500, type: 3}
       propertyPath: LadderSpeed
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8844583357349216525, guid: a804ebc030893f340a832652923f8500, type: 3}
       propertyPath: NormalSpeed
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a804ebc030893f340a832652923f8500, type: 3}

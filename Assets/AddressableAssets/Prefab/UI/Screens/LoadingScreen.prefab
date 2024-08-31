@@ -436,9 +436,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_canTraceBack: 0
-  m_progressBar: {fileID: 0}
   m_loadingAnim: {fileID: 4487507507802295023}
   m_loadingFinishNotify: {fileID: 5300462950324172022}
+  m_minimumLoadingTime: 1
 --- !u!1 &8354292337778684522
 GameObject:
   m_ObjectHideFlags: 0

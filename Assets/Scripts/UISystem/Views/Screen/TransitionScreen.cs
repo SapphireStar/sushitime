@@ -15,7 +15,7 @@ public class TransitionScreen : MonoBehaviour
     private CancellationTokenSource m_tokenSource;
     private void Start()
     {
-        m_transitionTime = 0.3f;
+        m_transitionTime = 0;
         m_background = GetComponent<Image>();
         m_tokenSource = new CancellationTokenSource();
     }

@@ -9,13 +9,15 @@ public class EnemyEatFoodState : BaseState
     private Vector3 StartPos;
     private Vector3 EndPos;
     private GameObject food;
-    
+    SliceController slice;
+
     public EnemyEatFoodState(BaseEnemy owner, Vector3 start, Vector3 end, GameObject food)
     {
         this.owner = owner;
         StartPos = start;
         EndPos = end;
         this.food = food;
+        slice = food.GetComponent<SliceController>();
     }
     public override void OnEnter()
     {
@@ -35,13 +37,16 @@ public class EnemyEatFoodState : BaseState
 
     public override void OnUpdate()
     {
-       
+        if (slice.IsPickup||slice.IsFalling)
+        {
+            owner.TransitionToState(new EnemyRandomState(owner));
+        }
     }
     IEnumerator MoveFromTo()
     {
         yield return owner.EnemyMotor.MoveTo(owner.CurMap.GetPointViaPosition(StartPos));
         yield return owner.EnemyMotor.MoveTo(owner.CurMap.GetPointViaPosition(EndPos));
-        SliceController slice = food.GetComponent<SliceController>();
+        
         if (!slice.IsPickup)
         {
             GameObject.Destroy(food);

@@ -16,6 +16,8 @@ namespace Isekai.UI.Views.Screens
         private Transform m_loadingAnim;
         [SerializeField]
         private TextMeshProUGUI m_loadingFinishNotify;
+        [SerializeField]
+        private float m_minimumLoadingTime;
 
         private bool m_continue;
         public override void OnEnterScreen()
@@ -32,15 +34,19 @@ namespace Isekai.UI.Views.Screens
         float curValue = 0;
         async UniTaskVoid Loading()
         {
-            while (curValue < 1)
+            while (curValue < 1 )
             {
                 //m_progressBar.SetFillValue(curValue);
                 //curValue += Time.deltaTime * 0.4f;
                 await UniTask.Yield(this.GetCancellationTokenOnDestroy());
             }
-            m_loadingAnim.gameObject.SetActive(false);
-            m_loadingFinishNotify.gameObject.SetActive(true);
 
+            while (m_minimumLoadingTime > 0)
+            {
+                m_minimumLoadingTime -= Time.deltaTime;
+                Debug.Log(m_minimumLoadingTime);
+                await UniTask.Yield(this.GetCancellationTokenOnDestroy());
+            }
             ViewModel.LoadingComplete();
             
         }

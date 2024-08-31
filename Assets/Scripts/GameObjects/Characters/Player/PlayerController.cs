@@ -108,16 +108,52 @@ public class PlayerController : MonoBehaviour
         }
         else if(canDropSlice)
         {
-            isInPickedup = false;
-            m_gamemodel.IsPickedUp = false;
-            Point point = GridMap.Instance.GetPointViaPosition(new Vector3(curSushiPlate.x, transform.position.y, transform.position.z));
-            Vector3 pos = GridMap.Instance.GetPositionViaPoint(point) - new Vector3(0,SushiController.SLICE_HEIGHT/6.0f,0);
-            sliceTransform.position = pos;
-            sliceTransform.SetParent(sliceParent);
-            sliceTransform.GetComponent<SliceController>().DropDown();
-            sliceTransform.GetComponent<SliceController>().RefreshPosition = pos;
-            EventSystem.Instance.SendEvent<SliceDropEvent>(typeof(SliceDropEvent), new SliceDropEvent(sliceLastPos, pos, sliceTransform.GetComponent<SliceController>().CurSliceType));
-            sliceTransform = null;
+            var hit = Physics2D.Raycast(transform.position - new Vector3(0, 0.2f, 0), new Vector2(transform.localScale.x, 0), 1, LayerMask.GetMask("Piece"));
+            if (hit)
+            {
+                //Use a temp variable to do the switch between two slices refresh position.
+                var tempOriginRefreshPos = sliceLastPos;
+
+                isInPickedup = true;
+                m_gamemodel.IsPickedUp = true;
+                Point point = GridMap.Instance.GetPointViaPosition(new Vector3(curSushiPlate.x, transform.position.y, transform.position.z));
+                Vector3 sliceNewPosition = GridMap.Instance.GetPositionViaPoint(point) - new Vector3(0, SushiController.SLICE_HEIGHT / 6.0f, 0);
+                sliceTransform.position = sliceNewPosition;
+                sliceTransform.SetParent(sliceParent);
+                sliceTransform.GetComponent<SliceController>().DropDown();
+                sliceTransform.GetComponent<SliceController>().RefreshPosition = sliceNewPosition;
+                sliceTransform = null;
+
+                sliceTransform = hit.collider.transform.parent;
+                //do not pickup when slice is falling
+                if (sliceTransform.GetComponent<SliceController>().IsFalling)
+                {
+                    sliceTransform = null;
+                    return;
+                }
+
+                isInPickedup = true;
+                m_gamemodel.IsPickedUp = true;
+                sliceParent = sliceTransform.parent;
+                sliceTransform.SetParent(transform);
+                sliceTransform.localPosition = new Vector3(0, 1, 0);
+                //call pickup to restore the position of pieces
+                sliceTransform.GetComponent<SliceController>().PickUp();
+            }
+            else
+            {
+                isInPickedup = false;
+                m_gamemodel.IsPickedUp = false;
+                Point point = GridMap.Instance.GetPointViaPosition(new Vector3(curSushiPlate.x, transform.position.y, transform.position.z));
+                Vector3 pos = GridMap.Instance.GetPositionViaPoint(point) - new Vector3(0, SushiController.SLICE_HEIGHT / 6.0f, 0);
+                sliceTransform.position = pos;
+                sliceTransform.SetParent(sliceParent);
+                sliceTransform.GetComponent<SliceController>().DropDown();
+                sliceTransform.GetComponent<SliceController>().RefreshPosition = pos;
+                EventSystem.Instance.SendEvent<SliceDropEvent>(typeof(SliceDropEvent), new SliceDropEvent(sliceLastPos, pos, sliceTransform.GetComponent<SliceController>().CurSliceType));
+                sliceTransform = null;
+            }
+
         }
     }
     void restoreSlicePos()
@@ -151,7 +187,8 @@ public class PlayerController : MonoBehaviour
     //make sure slice won't collapse with other slices
     void detectOtherSlice()
     {
-        var hit = Physics2D.OverlapCircle(transform.position, 0.45f, LayerMask.GetMask("Piece"));
+        isAwayOtherSlice = true;
+/*        var hit = Physics2D.OverlapCircle(transform.position, 0.45f, LayerMask.GetMask("Piece"));
         if(hit)
         {
             isAwayOtherSlice = false;
@@ -159,7 +196,7 @@ public class PlayerController : MonoBehaviour
         else
         {
             isAwayOtherSlice = true;
-        }
+        }*/
     }
     void detectPlatform()
     {

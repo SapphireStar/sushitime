@@ -227,7 +227,7 @@ GameObject:
   - component: {fileID: 5272300300648480847}
   - component: {fileID: 5272300300648480846}
   m_Layer: 0
-  m_Name: Tynny
+  m_Name: Shrimp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -272,7 +272,7 @@ MonoBehaviour:
   - {fileID: 7487713715799916350}
   PieceDownFactor: 0.4
   MaxPieceDownDistance: 0.5
-  FallDownSpeed: 2
+  FallDownSpeed: 3
   SlicePlaceOffset: 0.125
   CurSliceType: 8
   RefreshPosition: {x: 0, y: 0, z: 0}
@@ -349,8 +349,8 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -8
-  m_Sprite: {fileID: 21300000, guid: 4d45f1922319d6e459f8f6196081b955, type: 3}
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 21300000, guid: 9b45e0401252a3f4abab0dfa31ab1a50, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -446,8 +446,8 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -8
-  m_Sprite: {fileID: 21300000, guid: 2cbec6f107a01fd4ab9326b84d338724, type: 3}
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 21300000, guid: 6fdf94de2d2c4dc4fa48e8e3fc9c0ea1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -543,8 +543,8 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -8
-  m_Sprite: {fileID: 21300000, guid: dcc297740afa6974d8cfa20b6d522234, type: 3}
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 21300000, guid: c44569eab5bbc3c428112f8655037432, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -640,8 +640,8 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -8
-  m_Sprite: {fileID: 21300000, guid: 132e94d32d7c2a44fbafb3d2f4c79bfc, type: 3}
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 21300000, guid: 2828fba1595c24141bb0fbd9a5cf307a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

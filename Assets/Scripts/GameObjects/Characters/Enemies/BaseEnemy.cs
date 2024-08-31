@@ -8,6 +8,8 @@ public class BaseEnemy : StateMachine
     public float NormalSpeed;
     public float LadderSpeed;
     public GridBasedMovement EnemyMotor;
+    public float EatCD = 10;
+    public float CurCD = 0;
 
     GameModel gameModel;
     // Start is called before the first frame update

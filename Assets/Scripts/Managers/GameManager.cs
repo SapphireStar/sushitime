@@ -24,11 +24,15 @@ public class GameManager : MonoSingleton<GameManager>
     void Start()
     {
         m_GameModel.PropertyValueChanged += onGameModelChanged;
-        ScreenManager.Instance.TransitionToInstant(Isekai.UI.EScreenType.HUDScreen, ELayerType.HUDLayer, new HUDScreenViewModel()).Forget();
+        
 
         m_Enemies = transform.GetComponentsInChildren<BaseEnemy>();
 
         RecordInitialPos();
+        StartGame();
+    }
+    public void StartGame()
+    {
         StartCoroutine(GameStart());
     }
     //Record Characters' initial positions for restoring

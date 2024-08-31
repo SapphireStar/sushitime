@@ -27,7 +27,10 @@ namespace Isekai.UI.Views.Screens
         }
         public void OnNewGameClicked()
         {
-            LevelManager.Instance.TransitionToScene("BattleScene").Forget();
+            LevelManager.Instance.TransitionToScene("BattleScene",()=> 
+            {
+                ScreenManager.Instance.TransitionToInstant(Isekai.UI.EScreenType.HUDScreen, ELayerType.HUDLayer, new HUDScreenViewModel()).Forget();
+            }).Forget();
         }
         public void OnSettingsClicked()
         {

@@ -20,7 +20,7 @@ public class SushiGenerationController : MonoBehaviour
     public Transform[] Layer2;
     public List<List<Point>> RemainPlaces;
     public List<List<Point>> OriginPlaces;
-    private Queue<Tuple<SliceType,int>> requireTypes;
+    private LinkedList<Tuple<SliceType,int>> requireTypes;
     [InspectorName("Orders of Sushi")]
     public SliceType[] OrderSushi0;
     public SliceType[] OrderSushi1;
@@ -44,10 +44,10 @@ public class SushiGenerationController : MonoBehaviour
         EventSystem.Instance.Subscribe<SliceDropEvent>(typeof(SliceDropEvent), handleSliceDropEvent);
         EventSystem.Instance.Subscribe<SliceSetEvent>(typeof(SliceSetEvent), handleSliceSetEvent);
         EventSystem.Instance.Subscribe<SliceFallEvent>(typeof(SliceFallEvent), handleSliceFallEvent);
-
+        m_gameModel.PropertyValueChanged += onGameModelChangedHandler;
         RemainPlaces = new List<List<Point>>();
         OriginPlaces = new List<List<Point>>();
-        requireTypes = new Queue<Tuple<SliceType, int>>();
+        requireTypes = new LinkedList<Tuple<SliceType, int>>();
         initializeOrderedSlices();
         //Use TotalTypesOfSlices to determine how many arrays needed to store the refresh points for each type of slices
         for (int i = 0; i < TotalTypesOfSlices; i++)
@@ -99,23 +99,34 @@ public class SushiGenerationController : MonoBehaviour
         EventSystem.Instance.Unsubscribe<SliceDropEvent>(typeof(SliceDropEvent), handleSliceDropEvent);
         EventSystem.Instance.Unsubscribe<SliceSetEvent>(typeof(SliceSetEvent), handleSliceSetEvent);
         EventSystem.Instance.Unsubscribe<SliceFallEvent>(typeof(SliceFallEvent), handleSliceFallEvent);
-
+        m_gameModel.PropertyValueChanged -= onGameModelChangedHandler;
     }
     void handleSliceDropEvent(SliceDropEvent e)
     {
-        int layer = CurSliceData.GetLayer(e.sliceType);
-        RemainPlaces[layer].Remove(m_gridMap.GetPointViaPosition(e.nowPos));
-        if (OriginPlaces[layer].Contains(m_gridMap.GetPointViaPosition(e.lastPos)))
+        for (int i = 0; i < OriginPlaces.Count; i++)
         {
-            RemainPlaces[layer].Add(m_gridMap.GetPointViaPosition(e.lastPos));
-        } 
+            if (OriginPlaces[i].Contains(m_gridMap.GetPointViaPosition(e.lastPos)))
+            {
+                RemainPlaces[i].Add(m_gridMap.GetPointViaPosition(e.lastPos));
+            }
+        }
+
+        foreach (var item in RemainPlaces)
+        {
+            if (item.Contains(m_gridMap.GetPointViaPosition(e.nowPos)))
+            {
+                item.Remove(m_gridMap.GetPointViaPosition(e.nowPos));
+            }
+        }
     }
     void handleSliceSetEvent(SliceSetEvent e)
     {
-        int layer = CurSliceData.GetLayer(e.sliceType);
-        if (OriginPlaces[layer].Contains(m_gridMap.GetPointViaPosition(e.pos)))
+        for (int i = 0; i < OriginPlaces.Count; i++)
         {
-            RemainPlaces[layer].Add(m_gridMap.GetPointViaPosition(e.pos));
+            if (OriginPlaces[i].Contains(m_gridMap.GetPointViaPosition(e.pos)))
+            {
+                RemainPlaces[i].Add(m_gridMap.GetPointViaPosition(e.pos));
+            }
         }
     }
     //BUG: if a slice falls down because of another slice, then it will override its lastpos
@@ -141,8 +152,24 @@ public class SushiGenerationController : MonoBehaviour
             }
             
         }
-
-
+    }
+    void onGameModelChangedHandler(object sender, PropertyValueChangedEventArgs e)
+    {
+        switch (e.PropertyName)
+        {
+            case "TotalSlices":
+                if (m_gameModel.TotalSlices < 5)
+                {
+                    SliceRefreshTime = 5;
+                }
+                if(m_gameModel.TotalSlices >= 9)
+                {
+                    SliceRefreshTime = 10;
+                }
+                break;
+            default:
+                break;
+        }
     }
     //Initialize the orderedSlices, so that system know what food to generate
     void initializeOrderedSlices()
@@ -238,19 +265,39 @@ public class SushiGenerationController : MonoBehaviour
     }
     void prepareSlice(SliceType type, int layer)
     {
-        if (RemainPlaces[layer].Count <= 0)
+        if(layer == 0)
         {
-            requireTypes.Enqueue(new Tuple<SliceType, int>(type,layer));
-            return;
+            for (int i = 0; i < RemainPlaces.Count; i++)
+            {
+                if (RemainPlaces[i].Count > 0)
+                {
+                    int index = UnityEngine.Random.Range(0, RemainPlaces[layer].Count);
+                    Vector3 target = m_gridMap.GetPositionViaPoint(RemainPlaces[layer][index]);
+                    RemainPlaces[layer].RemoveAt(index);
+                    GameObject prefab = CurSliceData.GetPrefab(type);
+                    GameObject slice = Instantiate(prefab, target, Quaternion.identity, transform);
+                    slice.transform.localScale = Vector3.one * SushiController.SLICE_SCALE;
+                    break;
+                }
+            }
         }
-        
-        int index = UnityEngine.Random.Range(0, RemainPlaces[layer].Count);
-        Vector3 target = m_gridMap.GetPositionViaPoint(RemainPlaces[layer][index]);
-        RemainPlaces[layer].RemoveAt(index);
-        GameObject prefab = CurSliceData.GetPrefab(type);
-        GameObject slice = Instantiate(prefab, target, Quaternion.identity, transform);
-        slice.transform.localScale = Vector3.one * SushiController.SLICE_SCALE;
-        //Add to existedTypes, so that controller know which slice need to be refreshed, which is not
+        else
+        {
+            if (RemainPlaces[layer].Count <= 0)
+            {
+                requireTypes.AddLast(new Tuple<SliceType, int>(type, layer));
+                return;
+            }
+
+            int index = UnityEngine.Random.Range(0, RemainPlaces[layer].Count);
+            Vector3 target = m_gridMap.GetPositionViaPoint(RemainPlaces[layer][index]);
+            RemainPlaces[layer].RemoveAt(index);
+            GameObject prefab = CurSliceData.GetPrefab(type);
+            GameObject slice = Instantiate(prefab, target, Quaternion.identity, transform);
+            slice.transform.localScale = Vector3.one * SushiController.SLICE_SCALE;
+            //Add to existedTypes, so that controller know which slice need to be refreshed, which is not
+
+        }
     }
     //Let SushiController to remind SushiGenerationController, which slice need to be refreshed
     //the slice need to be stored in a queue
@@ -259,7 +306,7 @@ public class SushiGenerationController : MonoBehaviour
         //Because use this method to add required types, so need to be sure the SliceType corresponds to its layer
         for (int i = 0; i < sliceTypes.Length; i++)
         {
-            requireTypes.Enqueue(new Tuple<SliceType, int>(sliceTypes[i], i));
+            addSlice(sliceTypes[i]); 
         }
 
     }
@@ -270,6 +317,7 @@ public class SushiGenerationController : MonoBehaviour
         {
             total += item.Count;
         }
+        m_gameModel.TotalSlices = total;
         Debug.Log($"total remain places:{total}");
         var slices = transform.GetComponentsInChildren<SliceController>();
         Debug.Log(slices.Length);
@@ -282,7 +330,7 @@ public class SushiGenerationController : MonoBehaviour
         {
             if (!curSlices.Contains(item))
             {
-                requireTypes.Enqueue(new Tuple<SliceType, int>(item,CurSliceData.GetLayer(item)));
+                addSlice(item);
             }
         }
     }
@@ -297,32 +345,48 @@ public class SushiGenerationController : MonoBehaviour
             m_curRefreshTime = SliceRefreshTime;
             if(requireTypes.Count<=0)
             {
-                Array values = Enum.GetValues(typeof(SliceType));
+/*                Array values = Enum.GetValues(typeof(SliceType));
                 var slicetype = (SliceType)values.GetValue(UnityEngine.Random.Range(0,values.Length));
-                prepareSlice(slicetype, CurSliceData.GetLayer(slicetype));
+                prepareSlice(slicetype, CurSliceData.GetLayer(slicetype));*/
             
             }
             else
             {
-                var slice = requireTypes.Dequeue();
+                var slice = requireTypes.First.Value;
+                requireTypes.RemoveFirst();
                 prepareSlice(slice.Item1, slice.Item2);
             }
 
-            
-/*            for (int i = 0; i < Sushis.Length; i++)
+
+            for (int i = 0; i < Sushis.Length; i++)
             {
                 foreach (var item in Sushis[i].PreferredSliceTypes)
                 {
                     var tuple = new Tuple<SliceType, int>(item, CurSliceData.GetLayer(item));
                     if (!requireTypes.Contains(tuple))
                     {
-                        requireTypes.Enqueue(tuple);
+                        requireTypes.AddLast(tuple);
                     }
                 }
-            }*/
+            }
         }
     }
+    void addSlice(SliceType type)
+    {
+        int layer = CurSliceData.GetLayer(type);
+        requireTypes.AddLast(new LinkedListNode<Tuple<SliceType, int>>(new Tuple<SliceType, int>(type, layer)));
 
+/*        if (layer == 0 && requireTypes.First.Value.Item1 != SliceType.Rice)
+        {
+            requireTypes.AddFirst(new LinkedListNode<Tuple<SliceType, int>>(new Tuple<SliceType, int>(type, layer)));
+        }
+        else
+        {
+            requireTypes.AddLast(new LinkedListNode<Tuple<SliceType, int>>(new Tuple<SliceType, int>(type, layer)));
+
+        }*/
+
+    }
     void checkSushiDelivered()
     {
         for (int i = 0; i < Sushis.Length; i++)

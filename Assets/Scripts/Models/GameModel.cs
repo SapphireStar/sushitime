@@ -95,23 +95,33 @@ public class GameModel : Model
             ChangePropertyAndNotify<int>(ref score, value);
         }
     }
+    private int totalSlices;
+    public int TotalSlices
+    {
+        get => totalSlices;
+        set
+        {
+            ChangePropertyAndNotify<int>(ref totalSlices, value);
+        }
+    }
     public void Reset()
     {
-        playerDead = false;
-        isPaused = false;
-        isClimbing = false;
-        isPickedUp = false;
+        PlayerDead = false;
+        IsPaused = false;
+        IsClimbing = false;
+        IsPickedUp = false;
     }
     public void RestartGame()
     {
-        playerDead = false;
-        isPaused = false;
-        isClimbing = false;
-        isPickedUp = false;
+        PlayerDead = false;
+        IsPaused = false;
+        IsClimbing = false;
+        IsPickedUp = false;
         PatienceBar = 100;
         MaxPatienceBar = 100;
         Score = 0;
         FullBar = 0;
         maxFullBar = 100;
+        TotalSlices = 9;
     }
 }

@@ -225,7 +225,31 @@ public class SliceController : MonoBehaviour
     //Slice will bounce if collide with other slices
     void Bounce(Vector3 target)
     {
-
+        if (IsSet)
+            return;
+        StartCoroutine(BounceAnim());
+    }
+    IEnumerator BounceAnim()
+    {
+        Pieces[0].localPosition = new Vector3(Pieces[0].localPosition.x, 0, 0) + Vector3.up * 0.2f;
+        Pieces[1].localPosition = new Vector3(Pieces[1].localPosition.x, 0, 0) + Vector3.up * 0.1f;
+        Pieces[2].localPosition = new Vector3(Pieces[2].localPosition.x, 0, 0) + Vector3.up * 0f;
+        Pieces[3].localPosition = new Vector3(Pieces[3].localPosition.x, 0, 0) + Vector3.up * 0.2f;
+        yield return new WaitForSecondsRealtime(0.2f);
+        Pieces[0].localPosition = new Vector3(Pieces[0].localPosition.x, 0, 0) + Vector3.up * 0.4f;
+        Pieces[1].localPosition = new Vector3(Pieces[1].localPosition.x, 0, 0) + Vector3.up * 0.2f;
+        Pieces[2].localPosition = new Vector3(Pieces[2].localPosition.x, 0, 0) + Vector3.up * 0.1f;
+        Pieces[3].localPosition = new Vector3(Pieces[3].localPosition.x, 0, 0) + Vector3.up * 0.3f;
+        yield return new WaitForSecondsRealtime(0.2f);
+        Pieces[0].localPosition = new Vector3(Pieces[0].localPosition.x, 0, 0) + Vector3.up * 0.2f;
+        Pieces[1].localPosition = new Vector3(Pieces[1].localPosition.x, 0, 0) + Vector3.up * 0.1f;
+        Pieces[2].localPosition = new Vector3(Pieces[2].localPosition.x, 0, 0) + Vector3.up * 0f;
+        Pieces[3].localPosition = new Vector3(Pieces[3].localPosition.x, 0, 0) + Vector3.up * 0.2f;
+        yield return new WaitForSecondsRealtime(0.2f);
+        Pieces[0].localPosition = new Vector3(Pieces[0].localPosition.x,0,0);
+        Pieces[1].localPosition =new Vector3(Pieces[1].localPosition.x, 0, 0);
+        Pieces[2].localPosition =new Vector3(Pieces[2].localPosition.x, 0, 0);
+        Pieces[3].localPosition =new Vector3(Pieces[3].localPosition.x, 0, 0);
     }
 
 }

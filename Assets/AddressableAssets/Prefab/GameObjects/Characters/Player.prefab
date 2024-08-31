@@ -187,8 +187,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurMap: {fileID: 0}
-  NormalSpeed: 5
-  LadderSpeed: 3.5
+  NormalSpeed: 3
+  LadderSpeed: 2
 --- !u!95 &8187356219748662409
 Animator:
   serializedVersion: 5
