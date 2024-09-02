@@ -8,9 +8,11 @@ public class PlayerClimbLadderState : BaseState
     PlayerMovement owner;
     bool isLeftNearPlatform;
     bool isRightNearPlatform;
+    Animator anim;
     public PlayerClimbLadderState(PlayerMovement owner)
     {
         this.owner = owner;
+        anim = owner.transform.GetChild(0).GetComponent<Animator>();
     }
     public override void OnEnter()
     {
@@ -26,6 +28,7 @@ public class PlayerClimbLadderState : BaseState
 
     public override void OnExit()
     {
+        anim.SetBool("iswalking", false);
     }
 
     public override void OnStart()
@@ -44,6 +47,15 @@ public class PlayerClimbLadderState : BaseState
         float verticalDir = Input.GetAxisRaw("Vertical");
         Point curPoint = owner.CurMap.GetPointViaPosition(owner.transform.position);
         Vector3 pointPos = owner.CurMap.GetPositionViaPoint(curPoint);
+
+        if(verticalDir != 0)
+        {
+            anim.SetBool("iswalking", true);
+        }
+        else
+        {
+            anim.SetBool("iswalking", false);
+        }
 
         if (verticalDir < 0)
         {

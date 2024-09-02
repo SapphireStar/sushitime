@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 586580207975474821}
   - component: {fileID: 7845764233960838572}
+  - component: {fileID: 4610790860782300703}
   m_Layer: 0
   m_Name: Square
   m_TagString: Untagged
@@ -72,7 +73,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 0df6539b64443da498e843b5f9117b6a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -84,6 +85,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &4610790860782300703
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3587013405899154315}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 92108bdebec432345a73e16bfeb398cb, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &8187356219748662413
 GameObject:
   m_ObjectHideFlags: 0
@@ -95,7 +117,6 @@ GameObject:
   - component: {fileID: 8187356219748662415}
   - component: {fileID: 8187356219748662412}
   - component: {fileID: 8187356219748662414}
-  - component: {fileID: 8187356219748662409}
   - component: {fileID: 8187356219748662408}
   - component: {fileID: 8187356219748662410}
   - component: {fileID: 8187356219748662411}
@@ -189,27 +210,6 @@ MonoBehaviour:
   CurMap: {fileID: 0}
   NormalSpeed: 3
   LadderSpeed: 2
---- !u!95 &8187356219748662409
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8187356219748662413}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 92108bdebec432345a73e16bfeb398cb, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &8187356219748662408
 MonoBehaviour:
   m_ObjectHideFlags: 0

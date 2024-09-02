@@ -7,13 +7,15 @@ public class PlayerNormalState : BaseState
     PlayerMovement owner;
     bool isNearLadder;
     GameModel m_gamemodel;
+    Animator anim;
     public PlayerNormalState(PlayerMovement owner)
     {
         this.owner = owner;
+        anim = owner.transform.GetChild(0).GetComponent<Animator>();
     }
     public override void OnEnter()
     {
-        //change animator state
+        
         //Set player Y-axis align with ladder X-axis
         Debug.Log("Start Walk on Platform");
         Point curPoint = owner.CurMap.GetPointViaPosition(owner.transform.position);
@@ -25,6 +27,7 @@ public class PlayerNormalState : BaseState
 
     public override void OnExit()
     {
+        anim.SetBool("iswalking", false);
     }
 
     public override void OnStart()
@@ -43,6 +46,16 @@ public class PlayerNormalState : BaseState
         float horizontalDir = Input.GetAxisRaw("Horizontal");
         Point curPoint = owner.CurMap.GetPointViaPosition(owner.transform.position);
         Vector3 pointPos = owner.CurMap.GetPositionViaPoint(curPoint);
+
+        //change animator state
+        if(horizontalDir!=0)
+        {
+            anim.SetBool("iswalking", true);
+        }
+        else
+        {
+            anim.SetBool("iswalking", false);
+        }
 
         //when player not out of boundaries, or not collide with obstacles, stop moving
         if (horizontalDir < 0)
