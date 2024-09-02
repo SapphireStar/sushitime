@@ -117,8 +117,8 @@ public class GameModel : Model
         IsPaused = false;
         IsClimbing = false;
         IsPickedUp = false;
-        PatienceBar = 100;
-        MaxPatienceBar = 100;
+        PatienceBar = 200;
+        MaxPatienceBar = 200;
         Score = 0;
         FullBar = 0;
         maxFullBar = 100;

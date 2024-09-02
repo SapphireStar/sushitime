@@ -7,15 +7,18 @@ public class EnemyRandomState : BaseState
     List<Point> availablePoints;
     Point target;
     BaseEnemy owner;
+    Animator anim;
 
 
     Coroutine moveHandle;
     public EnemyRandomState(BaseEnemy owner)
     {
         this.owner = owner;
+        anim = owner.transform.GetChild(0).GetComponent<Animator>();
     }
     public override void OnEnter()
     {
+        anim.SetBool("iswalking", true);
 
         owner.CurCD = owner.EatCD;
         availablePoints = new List<Point>();
@@ -46,7 +49,7 @@ public class EnemyRandomState : BaseState
         if(owner.CurCD <= 0)
         {
             owner.CurCD = owner.EatCD;
-            var hit = Physics2D.OverlapCircle(owner.transform.position, 30, LayerMask.GetMask("Piece"));
+            var hit = Physics2D.OverlapCircle(owner.transform.position, 50, LayerMask.GetMask("Piece"));
             if (hit)
             {
                 Transform sushi = hit.transform.parent;

@@ -74,7 +74,15 @@ public class GameManager : MonoSingleton<GameManager>
                 {
                     PauseGame();
                     m_GameModel.IsGameOver = true;
-                    PopupManager.Instance.ShowPopup<GameoverPopup>(PopupType.GameoverPopup, (new PopupData(null,()=> { Time.timeScale = 1; LevelManager.Instance.TransitionToScene("BattleScene").Forget(); }))).Forget();
+                    PopupManager.Instance.ShowPopup<GameoverPopup>(PopupType.GameoverPopup, (new PopupData(null,
+                        ()=> 
+                        { 
+                            Time.timeScale = 1; LevelManager.Instance.TransitionToScene("BattleScene", 
+                                () =>
+                                    {
+                                        ScreenManager.Instance.TransitionToInstant(Isekai.UI.EScreenType.HUDScreen, ELayerType.HUDLayer, new HUDScreenViewModel()).Forget();
+                                    }).Forget();
+                        }))).Forget();
                 }
                 break;
             case "FullBar":
