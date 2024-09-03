@@ -68,15 +68,7 @@ public class GameModel : Model
             ChangePropertyAndNotify<float>(ref patienceBar, value);
         }
     }
-    private float fullBar;
-    public float FullBar
-    {
-        get => fullBar;
-        set
-        {
-            ChangePropertyAndNotify<float>(ref fullBar, value);
-        }
-    }
+
     private float maxFullBar;
     public float MaxFullBar
     {
@@ -117,11 +109,9 @@ public class GameModel : Model
         IsPaused = false;
         IsClimbing = false;
         IsPickedUp = false;
-        PatienceBar = 200;
+        PatienceBar = 100;
         MaxPatienceBar = 200;
         Score = 0;
-        FullBar = 0;
-        maxFullBar = 100;
         TotalSlices = 9;
     }
 }

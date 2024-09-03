@@ -314,8 +314,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurMap: {fileID: 0}
-  NormalSpeed: 2
-  LadderSpeed: 1
+  NormalSpeed: 3
+  LadderSpeed: 2
   EnemyMotor: {fileID: 8844583357349216522}
   EatCD: 10
   CurCD: 0

@@ -15,7 +15,7 @@ MonoBehaviour:
   m_GroupName: Sound
   m_Data:
     m_SerializedData: []
-  m_GUID: 29e703d0772eb964e85210f72d4740e2
+  m_GUID: 188472048653f6d47858befd01f8d328
   m_SerializeEntries:
   - m_GUID: 061614c4259c0c84ea62505afb077119
     m_Address: sfx_battle_bonusBoomerang

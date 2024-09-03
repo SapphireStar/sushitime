@@ -85,13 +85,7 @@ public class GameManager : MonoSingleton<GameManager>
                         }))).Forget();
                 }
                 break;
-            case "FullBar":
-                if(m_GameModel.FullBar>=100)
-                {
-                    PauseGame();
-                    PopupManager.Instance.ShowPopup<WinPopup>(PopupType.WinPopup, new PopupData()).Forget();
-                }
-                break;
+
             case "IsGameOver":
                 PauseGame();
                 break;
@@ -146,18 +140,18 @@ public class GameManager : MonoSingleton<GameManager>
         m_GameModel.PatienceBar -= Time.deltaTime;
     }
     //Increase PatienceBar when sushi delivered
-    public void IncreasePatienceBar()
+    public void IncreasePatienceBar(float num)
     {
-        m_GameModel.PatienceBar += 30;
-        if(m_GameModel.PatienceBar>100)
+        m_GameModel.PatienceBar += num;
+        if(m_GameModel.PatienceBar>m_GameModel.MaxPatienceBar)
         {
-            m_GameModel.PatienceBar = 100;
+            m_GameModel.PatienceBar = m_GameModel.MaxPatienceBar;
         }
     }
     public void IncreaseFullBar(SushiResultModel result)
     {
-        m_GameModel.FullBar += 20;
-    }
+/*        m_GameModel.FullBar += 20;
+*/    }
     public void CheckSushiResult(SushiResultModel result)
     {
         m_GameModel.Score += result.FinalScore;

@@ -372,11 +372,11 @@ public class GridMap : MonoSingleton<GridMap>
 #if UNITY_EDITOR
     private void OnGUI()
     {
-        foreach (var item in m_pointDict.Keys)
+/*        foreach (var item in m_pointDict.Keys)
         {
             Vector3 pos = Camera.main.WorldToScreenPoint(m_pointDict[item]);
             GUI.Label(new Rect(pos.x - 0.5f, -pos.y + Screen.height + 0.5f, Screen.width, Screen.height), m_gridStateDict[item].ToString());
-        }
+        }*/
 
     }
 #endif

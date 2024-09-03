@@ -38,6 +38,9 @@ public class SushiController : MonoBehaviour
     public const int TOTAL_SLICES = 3;
     public const int SLICE_SCALE = 3;
 
+    public float RightOrderIncrease = 30;
+    public float WrongOrderIncrease = -5;
+
     [InspectorName("Offsets for fall down slices")]
     public Vector3[] SlicesPos;
     public float SlicePadding = 0.375f;
@@ -57,6 +60,7 @@ public class SushiController : MonoBehaviour
 
     [InspectorName("The speed of Sushi to be delivered")]
     public float SushiMoveSpeed=5;
+
 
     private int m_sliceCount;
     private bool isFull;
@@ -78,6 +82,11 @@ public class SushiController : MonoBehaviour
         waypoints = new List<Transform>();
         waypoints.Add(SushiDeliverWaypoints.GetChild(0));
         waypoints.Add(SushiDeliverWaypoints.GetChild(1));
+
+        for (int i = 0; i < SliceIcons.Length; i++)
+        {
+            SliceIcons[i].transform.position = SlicesPos[i];
+        }
     }
     public void Initialize(SliceType[] preferredSliceTypes ,SliceData data)
     {
@@ -159,8 +168,18 @@ public class SushiController : MonoBehaviour
         SushiResultModel res = new SushiResultModel(correctSlice, correctOrder, finalScore);
         res.print();
 
-        GameManager.Instance.IncreasePatienceBar();
-        GameManager.Instance.IncreaseFullBar(res);
+        if(correctOrder == SushiController.TOTAL_SLICES)
+        {
+            GameManager.Instance.IncreasePatienceBar(RightOrderIncrease);
+        }
+        else
+        {
+            GameManager.Instance.IncreasePatienceBar(WrongOrderIncrease);
+
+        }
+
+        /*        GameManager.Instance.IncreaseFullBar(res);
+        */
         GameManager.Instance.CheckSushiResult(res);
         return res;
     }

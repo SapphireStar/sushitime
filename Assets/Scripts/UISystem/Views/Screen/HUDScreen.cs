@@ -13,7 +13,7 @@ namespace Isekai.UI.Views.Screens
         GameModel m_gameModel;
         public Image PatienceBar;
         public Image FullBar;
-        public TextMeshProUGUI ScoreText;
+        public Text ScoreText;
         public override void OnEnterScreen()
         {
             m_gameModel = ModelManager.Instance.GetModel<GameModel>(typeof(GameModel));
@@ -26,9 +26,9 @@ namespace Isekai.UI.Views.Screens
                 case "PatienceBar":
                     PatienceBar.fillAmount = m_gameModel.PatienceBar / m_gameModel.MaxPatienceBar;
                     break;
-                case "FullBar":
+/*                case "FullBar":
                     FullBar.fillAmount = m_gameModel.FullBar / m_gameModel.MaxFullBar;
-                    break;
+                    break;*/
                 case "Score":
                     ScoreText.text = $"SCORE: {m_gameModel.Score}";
                     break;

@@ -208,8 +208,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurMap: {fileID: 0}
-  NormalSpeed: 3
-  LadderSpeed: 2
+  NormalSpeed: 5
+  LadderSpeed: 3
 --- !u!114 &8187356219748662408
 MonoBehaviour:
   m_ObjectHideFlags: 0
