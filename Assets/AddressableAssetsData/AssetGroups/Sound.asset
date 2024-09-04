@@ -15,7 +15,7 @@ MonoBehaviour:
   m_GroupName: Sound
   m_Data:
     m_SerializedData: []
-  m_GUID: 188472048653f6d47858befd01f8d328
+  m_GUID: e4d4618097f6f8e41972b8a46cd01fbe
   m_SerializeEntries:
   - m_GUID: 061614c4259c0c84ea62505afb077119
     m_Address: sfx_battle_bonusBoomerang
@@ -73,6 +73,14 @@ MonoBehaviour:
     m_Address: sfx_battle_switchGun
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: cc232ff9b4feccd47b907196118a00e7
+    m_Address: sfx_pick_drop
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 5c8db00127841644abe69d378f8c4fb7
+    m_Address: sfx_walk_on_sushi
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   - m_GUID: 18d88ad6554205c41b80d58065a87df0
     m_Address: bgm-battle
     m_ReadOnly: 0
@@ -107,6 +115,10 @@ MonoBehaviour:
     m_SerializedLabels: []
   - m_GUID: 61bdcde550323cd4591f4baa1186f2c8
     m_Address: bgm-town
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: cfd656d2e7a695541b930e3ff1cdc3a1
+    m_Address: SUSHI TIME loop
     m_ReadOnly: 0
     m_SerializedLabels: []
   - m_GUID: f5fe6529fd49cb14c99affab51cfa0d2

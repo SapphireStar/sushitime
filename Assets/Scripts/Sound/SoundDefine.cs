@@ -9,6 +9,7 @@ public class SoundDefine
     public const string Music_Battle = "bgm-battle";
     public const string Music_MainMenu = "bgm-mainmenu";
     public const string Music_CottonPuzzle = "bgm-cotton";
+    public const string Music_SushiTime = "SUSHI TIME loop";
 
     public const string SFX_Message_Info = "sfx_click1";
     public const string SFX_Message_Error = "sfx_msg_error";
@@ -32,5 +33,8 @@ public class SoundDefine
     public const string SFX_Battle_pistolShoot2 = "sfx_battle_pistolShoot2";
     public const string SFX_Battle_pistolShoot3 = "sfx_battle_pistolShoot3";
     public const string SFX_Battle_ShotgunShoot = "sfx_battle_ShotgunShoot";
+    public const string SFX_Battle_pick_drop = "sfx_pick_drop";
+    public const string SFX_Walk_on_sushi = "sfx_walk_on_sushi";
+
 
 }

@@ -121,13 +121,17 @@ public class SushiGenerationController : MonoBehaviour
     }
     void handleSliceSetEvent(SliceSetEvent e)
     {
-        for (int i = 0; i < OriginPlaces.Count; i++)
+        if (!e.isHitByOther)
         {
-            if (OriginPlaces[i].Contains(m_gridMap.GetPointViaPosition(e.pos)))
+            for (int i = 0; i < OriginPlaces.Count; i++)
             {
-                RemainPlaces[i].Add(m_gridMap.GetPointViaPosition(e.pos));
+                if (OriginPlaces[i].Contains(m_gridMap.GetPointViaPosition(e.pos)))
+                {
+                    RemainPlaces[i].Add(m_gridMap.GetPointViaPosition(e.pos));
+                }
             }
         }
+
     }
     //BUG: if a slice falls down because of another slice, then it will override its lastpos
     //as a RemainPlace, but in fact it was placed by the another slice
@@ -345,10 +349,10 @@ public class SushiGenerationController : MonoBehaviour
             m_curRefreshTime = SliceRefreshTime;
             if(requireTypes.Count<=0)
             {
-/*                Array values = Enum.GetValues(typeof(SliceType));
-                var slicetype = (SliceType)values.GetValue(UnityEngine.Random.Range(0,values.Length));
-                prepareSlice(slicetype, CurSliceData.GetLayer(slicetype));*/
-            
+                Array values = Enum.GetValues(typeof(SliceType));
+                var slicetype = (SliceType)values.GetValue(UnityEngine.Random.Range(0, values.Length));
+                prepareSlice(slicetype, CurSliceData.GetLayer(slicetype));
+
             }
             else
             {
@@ -358,7 +362,7 @@ public class SushiGenerationController : MonoBehaviour
             }
 
 
-            for (int i = 0; i < Sushis.Length; i++)
+/*            for (int i = 0; i < Sushis.Length; i++)
             {
                 foreach (var item in Sushis[i].PreferredSliceTypes)
                 {
@@ -368,13 +372,13 @@ public class SushiGenerationController : MonoBehaviour
                         requireTypes.AddLast(tuple);
                     }
                 }
-            }
+            }*/
         }
     }
     void addSlice(SliceType type)
     {
         int layer = CurSliceData.GetLayer(type);
-        requireTypes.AddLast(new LinkedListNode<Tuple<SliceType, int>>(new Tuple<SliceType, int>(type, layer)));
+        requireTypes.AddFirst(new LinkedListNode<Tuple<SliceType, int>>(new Tuple<SliceType, int>(type, layer)));
 
 /*        if (layer == 0 && requireTypes.First.Value.Item1 != SliceType.Rice)
         {

@@ -70,6 +70,7 @@ public class PlayerController : MonoBehaviour
         if(hit)
         {
             hit.collider.GetComponent<PieceController>().StepOn();
+            
         }
     }
     void pickDropSlice()
@@ -88,6 +89,7 @@ public class PlayerController : MonoBehaviour
 
             if (hit)
             {
+                SoundManager.Instance.PlaySound(SoundDefine.SFX_Battle_pick_drop);
                 sliceTransform = hit.collider.transform.parent;
                 //do not pickup when slice is falling
                 if (sliceTransform.GetComponent<SliceController>().IsFalling)
@@ -108,8 +110,11 @@ public class PlayerController : MonoBehaviour
         }
         else if(canDropSlice)
         {
+            SoundManager.Instance.PlaySound(SoundDefine.SFX_Battle_pick_drop);
             var hit = Physics2D.Raycast(transform.position - new Vector3(0, 0.2f, 0), new Vector2(transform.localScale.x, 0), 1, LayerMask.GetMask("Piece"));
-            if (hit)
+            if (hit&&
+                !hit.collider.transform.parent.GetComponent<SliceController>().IsSet&&
+                !hit.collider.transform.parent.GetComponent<SliceController>().IsFalling)
             {
                 //Use a temp variable to do the switch between two slices refresh position.
                 var tempOriginRefreshPos = sliceLastPos;

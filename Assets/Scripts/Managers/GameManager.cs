@@ -29,7 +29,7 @@ public class GameManager : MonoSingleton<GameManager>
         m_Enemies = transform.GetComponentsInChildren<BaseEnemy>();
 
         RecordInitialPos();
-        StartGame();
+        m_GameModel.IsPaused = true;
     }
     public void StartGame()
     {
@@ -83,6 +83,12 @@ public class GameManager : MonoSingleton<GameManager>
                                         ScreenManager.Instance.TransitionToInstant(Isekai.UI.EScreenType.HUDScreen, ELayerType.HUDLayer, new HUDScreenViewModel()).Forget();
                                     }).Forget();
                         }))).Forget();
+                }
+                if (m_GameModel.PatienceBar >= 199)
+                {
+                    PauseGame();
+                    m_GameModel.IsGameOver = true;
+                    PopupManager.Instance.ShowPopup<WinPopup>(PopupType.WinPopup,new PopupData()).Forget();
                 }
                 break;
 
@@ -142,10 +148,14 @@ public class GameManager : MonoSingleton<GameManager>
     //Increase PatienceBar when sushi delivered
     public void IncreasePatienceBar(float num)
     {
-        m_GameModel.PatienceBar += num;
-        if(m_GameModel.PatienceBar>m_GameModel.MaxPatienceBar)
+        
+        if(m_GameModel.PatienceBar + num > m_GameModel.MaxPatienceBar)
         {
             m_GameModel.PatienceBar = m_GameModel.MaxPatienceBar;
+        }
+        else
+        {
+            m_GameModel.PatienceBar += num;
         }
     }
     public void IncreaseFullBar(SushiResultModel result)
@@ -187,10 +197,12 @@ public class SliceSetEvent :IEventHandler
 {
     public Vector3 pos;
     public SliceType sliceType;
+    public bool isHitByOther;
     public SliceSetEvent(Vector3 pos, SliceType slicetype, bool isHitByOther)
     {
         this.pos = pos;
         sliceType = slicetype;
+        this.isHitByOther = isHitByOther;
     }
 }
 public class SliceDropEvent : IEventHandler

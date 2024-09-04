@@ -96,6 +96,24 @@ public class GameModel : Model
             ChangePropertyAndNotify<int>(ref totalSlices, value);
         }
     }
+    private string playerName;
+    public string PlayerName
+    {
+        get => playerName;
+        set
+        {
+            ChangePropertyAndNotify<string>(ref playerName, value);
+        }
+    }
+    private bool isInputName;
+    public bool IsInputName
+    {
+        get=> isInputName;
+        set
+        {
+            ChangePropertyAndNotify(ref isInputName, value);
+        }
+    }
     public void Reset()
     {
         PlayerDead = false;

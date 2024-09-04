@@ -4,9 +4,11 @@ using Isekai.UI.ViewModels.Screens;
 using Isekai.UI.Views.Widgets;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Isekai.UI.Views.Screens
 {
@@ -18,20 +20,76 @@ namespace Isekai.UI.Views.Screens
         private TextMeshProUGUI m_loadingFinishNotify;
         [SerializeField]
         private float m_minimumLoadingTime;
+        [SerializeField]
+        private InputField m_inputField;
 
         private bool m_continue;
+        private GameModel gamemodel;
+#if UNITY_EDITOR
+        private string jsonPath = Application.streamingAssetsPath + "/JsonTest.json";
+#else
+        private string jsonPath = "./StreamingAssets/JsonTest.json";
+#endif
+        private LeaderBoard leaderBoard;
         public override void OnEnterScreen()
         {
             curValue = 0;
+            gamemodel = ModelManager.Instance.GetModel<GameModel>(typeof(GameModel));
+            if (gamemodel.IsInputName)
+            {
+                m_continue = true;
+            }
+            m_inputField.gameObject.SetActive(false);
             Loading().Forget();
         }
 
         
         private void Update()
         {
+            if (Input.GetKeyUp(KeyCode.Return))
+            {
+                m_continue = true;
+                if (m_inputField.text.Length>0)
+                {
+                    gamemodel.PlayerName = m_inputField.text;
+                }
+                else
+                {
+                    int num = PlayerPrefs.GetInt("totalplayers", 0);
+                    gamemodel.PlayerName = $"Player{num}";
+                }
 
+                gamemodel.IsInputName = true;
+                m_continue = true;
+
+                ReadJson();
+
+                leaderBoard.TotalPlayers++;
+                leaderBoard.Players.Add(gamemodel.PlayerName);
+
+                WriteJson();
+
+            }
         }
         float curValue = 0;
+        void ReadJson()
+        {
+            if (!File.Exists(jsonPath))
+            {
+                Debug.Log("JSON not exists");
+            }
+            string json = File.ReadAllText(jsonPath);
+            leaderBoard = JsonUtility.FromJson<LeaderBoard>(json);
+        }
+        void WriteJson()
+        {
+            if (!File.Exists(jsonPath))
+            {
+                File.Create(jsonPath);
+            }
+            string json = JsonUtility.ToJson(leaderBoard, true);
+            File.WriteAllText(jsonPath, json);
+        }
         async UniTaskVoid Loading()
         {
             while (curValue < 1 )
@@ -47,8 +105,19 @@ namespace Isekai.UI.Views.Screens
                 Debug.Log(m_minimumLoadingTime);
                 await UniTask.Yield(this.GetCancellationTokenOnDestroy());
             }
+
+            m_loadingAnim.gameObject.SetActive(false);
+
+            m_inputField.gameObject.SetActive(true);
+
+            m_inputField.ActivateInputField();
+
+            while (!m_continue)
+            {
+                await UniTask.Yield(this.GetCancellationTokenOnDestroy());
+            }
             ViewModel.LoadingComplete();
-            
+            GameManager.Instance.StartGame();
         }
 
         public override void HandleViewModelPropertyChanged(object sender, PropertyValueChangedEventArgs e)

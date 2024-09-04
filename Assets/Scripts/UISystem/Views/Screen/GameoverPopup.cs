@@ -2,10 +2,17 @@ using Isekai.UI.Views.Screens;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameoverPopup : MonoBehaviour, IPopup
 {
     public PopupData Data { get; set; }
+    public Text ScoreText;
+    private void Start()
+    {
+        GameModel model = ModelManager.Instance.GetModel<GameModel>(typeof(GameModel));
+        ScoreText.text = $"Score: {model.Score}";
+    }
     private void Update()
     {
         if(Input.GetKeyDown(KeyCode.Z))

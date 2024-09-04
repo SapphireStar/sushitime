@@ -30,6 +30,10 @@ public class BaseEnemy : StateMachine
     }
     protected override void Update()
     {
+        if ((gameModel.IsPaused))
+        {
+            return;
+        }
         base.Update();
     }
     private void OnDestroy()

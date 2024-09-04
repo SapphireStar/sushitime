@@ -19,6 +19,7 @@ public class PieceController : MonoBehaviour
     {
         if(!isStepped && !m_parent.IsFalling && !m_parent.IsSet)
         {
+            SoundManager.Instance.PlaySound(SoundDefine.SFX_Walk_on_sushi);
             isStepped = true;
             m_parent.SetPiece(transform);
         }

@@ -26,8 +26,9 @@ public class EnemyEatFoodState : BaseState
     }
     public override void OnEnter()
     {
-        owner.StartCoroutine(MoveFromTo());
         alertanim.SetBool("isalert", true);
+        anim.SetBool("iseating", false);
+        owner.StartCoroutine(MoveFromTo());
     }
 
     public override void OnExit()

@@ -12,6 +12,8 @@ namespace Isekai.UI.ViewModels.Screens
     {
         private float m_loadingProgress;
         public Action OnLoadingComplete;
+        public bool NeedInputName = true;
+
         public float LoadingProgress
         {
             get => m_loadingProgress;
