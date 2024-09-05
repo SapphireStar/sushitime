@@ -231,3 +231,13 @@ public class SliceFallEvent : IEventHandler
         this.IsHitByOther = isHitByOther;
     }
 }
+public class SliceEatEvent : IEventHandler
+{
+    public Vector3 Pos;
+    public SliceType sliceType;
+    public SliceEatEvent(Vector3 Pos, SliceType slicetype)
+    {
+        this.Pos = Pos;
+        this.sliceType = slicetype;
+    }
+}

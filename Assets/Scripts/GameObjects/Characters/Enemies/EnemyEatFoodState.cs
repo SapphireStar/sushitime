@@ -1,3 +1,4 @@
+using MyPackage;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -59,6 +60,7 @@ public class EnemyEatFoodState : BaseState
         
         if (!slice.IsPickup)
         {
+            EventSystem.Instance.SendEvent<SliceEatEvent>(typeof(SliceEatEvent), new SliceEatEvent(food.transform.position, food.GetComponent<SliceController>().CurSliceType));
             GameObject.Destroy(food);
         }
         

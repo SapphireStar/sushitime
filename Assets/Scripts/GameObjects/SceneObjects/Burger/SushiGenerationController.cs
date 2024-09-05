@@ -46,6 +46,7 @@ public class SushiGenerationController : MonoBehaviour
         EventSystem.Instance.Subscribe<SliceDropEvent>(typeof(SliceDropEvent), handleSliceDropEvent);
         EventSystem.Instance.Subscribe<SliceSetEvent>(typeof(SliceSetEvent), handleSliceSetEvent);
         EventSystem.Instance.Subscribe<SliceFallEvent>(typeof(SliceFallEvent), handleSliceFallEvent);
+        EventSystem.Instance.Subscribe<SliceEatEvent>(typeof(SliceEatEvent), handleSliceEatEvent);
         m_gameModel.PropertyValueChanged += onGameModelChangedHandler;
         RemainPlaces = new List<List<Point>>();
         OriginPlaces = new List<List<Point>>();
@@ -101,6 +102,7 @@ public class SushiGenerationController : MonoBehaviour
         EventSystem.Instance.Unsubscribe<SliceDropEvent>(typeof(SliceDropEvent), handleSliceDropEvent);
         EventSystem.Instance.Unsubscribe<SliceSetEvent>(typeof(SliceSetEvent), handleSliceSetEvent);
         EventSystem.Instance.Unsubscribe<SliceFallEvent>(typeof(SliceFallEvent), handleSliceFallEvent);
+        EventSystem.Instance.Unsubscribe<SliceEatEvent>(typeof(SliceEatEvent), handleSliceEatEvent);
         m_gameModel.PropertyValueChanged -= onGameModelChangedHandler;
     }
     void handleSliceDropEvent(SliceDropEvent e)
@@ -159,6 +161,16 @@ public class SushiGenerationController : MonoBehaviour
             
         }
     }
+    void handleSliceEatEvent(SliceEatEvent e)
+    {
+        for (int i = 0; i < OriginPlaces.Count; i++)
+        {
+            if (OriginPlaces[i].Contains(m_gridMap.GetPointViaPosition(e.Pos)))
+            {
+                RemainPlaces[i].Add(m_gridMap.GetPointViaPosition(e.Pos));
+            }
+        }
+    }
     void onGameModelChangedHandler(object sender, PropertyValueChangedEventArgs e)
     {
         switch (e.PropertyName)
@@ -172,7 +184,7 @@ public class SushiGenerationController : MonoBehaviour
                 if(m_gameModel.TotalSlices >= 9)
                 {
                     Debug.Log("change to rate 5");
-                    SliceRefreshTime = 7;
+                    SliceRefreshTime = 10;
                 }
                 break;
             default:
@@ -275,22 +287,24 @@ public class SushiGenerationController : MonoBehaviour
     {
         if(layer == 0)
         {
+            bool hasplace = false;
             for (int i = 0; i < RemainPlaces.Count; i++)
             {
                 if (RemainPlaces[i].Count > 0)
                 {
-                    int index = UnityEngine.Random.Range(0, RemainPlaces[layer].Count);
-                    Vector3 target = m_gridMap.GetPositionViaPoint(RemainPlaces[layer][index]);
-                    RemainPlaces[layer].RemoveAt(index);
+                    int index = UnityEngine.Random.Range(0, RemainPlaces[i].Count);
+                    Vector3 target = m_gridMap.GetPositionViaPoint(RemainPlaces[i][index]);
+                    RemainPlaces[i].RemoveAt(index);
                     GameObject prefab = CurSliceData.GetPrefab(type);
                     GameObject slice = Instantiate(prefab, target, Quaternion.identity, transform);
                     slice.transform.localScale = Vector3.one * SushiController.SLICE_SCALE;
+                    hasplace = true;
                     break;
                 }
-                else
-                {
-                    requireTypes.AddFirst(new Tuple<SliceType, int>(type, layer));
-                }
+            }
+            if(!hasplace)
+            {
+                requireTypes.AddFirst(new Tuple<SliceType, int>(SliceType.Rice, 0));
             }
         }
         else
