@@ -164,6 +164,7 @@ GameObject:
   - component: {fileID: 4987998651229928271}
   - component: {fileID: 975177409093803868}
   - component: {fileID: 6110788667390107071}
+  - component: {fileID: 8809085207975557738}
   m_Layer: 5
   m_Name: txt
   m_TagString: Untagged
@@ -233,6 +234,21 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Hunger bar
+--- !u!114 &8809085207975557738
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3533010068522024604}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 1}
+  m_EffectDistance: {x: 2, y: 2}
+  m_UseGraphicAlpha: 1
 --- !u!1 &4738436798499658223
 GameObject:
   m_ObjectHideFlags: 0
@@ -322,7 +338,7 @@ GameObject:
   - component: {fileID: 3402991693511675693}
   - component: {fileID: 4607515454794848400}
   m_Layer: 5
-  m_Name: Image
+  m_Name: customer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -396,7 +412,7 @@ Animator:
   m_GameObject: {fileID: 6309289345913507770}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 80a0b5542cd7bcb4181d82f7fc92c0cf, type: 2}
+  m_Controller: {fileID: 9100000, guid: e85bf9e8929b97849b6396394bbde4c9, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -509,6 +525,7 @@ MonoBehaviour:
   PatienceBar: {fileID: 8815066569044540919}
   FullBar: {fileID: 8451973276599559986}
   ScoreText: {fileID: 192682905652129247}
+  anim: {fileID: 4607515454794848400}
 --- !u!1 &7590749094266883552
 GameObject:
   m_ObjectHideFlags: 0

@@ -64,8 +64,11 @@ namespace Isekai.UI.Views.Screens
 
                 ReadJson();
 
-                leaderBoard.TotalPlayers++;
-                leaderBoard.Players.Add(gamemodel.PlayerName);
+                if(!leaderBoard.Players.Contains(gamemodel.PlayerName))
+                {
+                    leaderBoard.TotalPlayers++;
+                    leaderBoard.Players.Add(gamemodel.PlayerName);
+                }
 
                 WriteJson();
 
@@ -74,21 +77,25 @@ namespace Isekai.UI.Views.Screens
         float curValue = 0;
         void ReadJson()
         {
-            if (!File.Exists(jsonPath))
+
+            if (PlayerPrefs.GetString("json").Length == 0)
             {
                 Debug.Log("JSON not exists");
+                leaderBoard = new LeaderBoard();
+                leaderBoard.Players = new List<string>();
             }
-            string json = File.ReadAllText(jsonPath);
-            leaderBoard = JsonUtility.FromJson<LeaderBoard>(json);
+            else
+            {
+                string json = PlayerPrefs.GetString("json");
+                leaderBoard = JsonUtility.FromJson<LeaderBoard>(json);
+            }
+
         }
         void WriteJson()
         {
-            if (!File.Exists(jsonPath))
-            {
-                File.Create(jsonPath);
-            }
             string json = JsonUtility.ToJson(leaderBoard, true);
-            File.WriteAllText(jsonPath, json);
+            PlayerPrefs.SetString("json", json);
+            PlayerPrefs.Save();
         }
         async UniTaskVoid Loading()
         {

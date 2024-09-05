@@ -35,6 +35,7 @@ public class SoundDefine
     public const string SFX_Battle_ShotgunShoot = "sfx_battle_ShotgunShoot";
     public const string SFX_Battle_pick_drop = "sfx_pick_drop";
     public const string SFX_Walk_on_sushi = "sfx_walk_on_sushi";
+    public const string SFX_Consume = "sfx_consume";
 
 
 }

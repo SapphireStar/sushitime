@@ -1,7 +1,9 @@
 using MyPackage;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class SushiGenerationController : MonoBehaviour
 {
@@ -164,11 +166,13 @@ public class SushiGenerationController : MonoBehaviour
             case "TotalSlices":
                 if (m_gameModel.TotalSlices < 5)
                 {
-                    SliceRefreshTime = 5;
+                    Debug.Log("change to rate 5");
+                    SliceRefreshTime = 3;
                 }
                 if(m_gameModel.TotalSlices >= 9)
                 {
-                    SliceRefreshTime = 10;
+                    Debug.Log("change to rate 5");
+                    SliceRefreshTime = 7;
                 }
                 break;
             default:
@@ -283,6 +287,10 @@ public class SushiGenerationController : MonoBehaviour
                     slice.transform.localScale = Vector3.one * SushiController.SLICE_SCALE;
                     break;
                 }
+                else
+                {
+                    requireTypes.AddFirst(new Tuple<SliceType, int>(type, layer));
+                }
             }
         }
         else
@@ -314,6 +322,7 @@ public class SushiGenerationController : MonoBehaviour
         }
 
     }
+
     void checkNeededFood()
     {
         int total = 0;
@@ -321,7 +330,7 @@ public class SushiGenerationController : MonoBehaviour
         {
             total += item.Count;
         }
-        m_gameModel.TotalSlices = total;
+        m_gameModel.TotalSlices = 12 - total;
         Debug.Log($"total remain places:{total}");
         var slices = transform.GetComponentsInChildren<SliceController>();
         Debug.Log(slices.Length);

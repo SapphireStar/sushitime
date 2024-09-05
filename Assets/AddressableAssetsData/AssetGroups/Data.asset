@@ -15,7 +15,7 @@ MonoBehaviour:
   m_GroupName: Data
   m_Data:
     m_SerializedData: []
-  m_GUID: 2a456ec6016baef48aee925c4774e418
+  m_GUID: c2f723a697aa74841a303f7363841b5a
   m_SerializeEntries:
   - m_GUID: e5a61a7fc978d264284028233c857434
     m_Address: PlayerInput

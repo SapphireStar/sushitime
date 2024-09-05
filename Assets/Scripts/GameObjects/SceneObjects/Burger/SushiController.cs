@@ -186,6 +186,7 @@ public class SushiController : MonoBehaviour
     //Customer eats the sushi
     public void ConsumeSushi(GameObject slice)
     {
+        SoundManager.Instance.PlaySound(SoundDefine.SFX_Consume);
         Destroy(slice);
     }
     public void DeliverSushi()

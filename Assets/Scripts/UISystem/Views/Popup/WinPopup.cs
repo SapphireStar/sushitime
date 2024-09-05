@@ -79,21 +79,18 @@ public class WinPopup : MonoBehaviour, IPopup
     void ReadJson()
     {
         
-        if (!File.Exists(jsonPath))
+        if (PlayerPrefs.GetString("json").Length==0)
         {
             Debug.Log("JSON not exists");
         }
-        string json = File.ReadAllText(jsonPath);
+        string json = PlayerPrefs.GetString("json");
         leaderBoard = JsonUtility.FromJson<LeaderBoard>(json);
     }
     void WriteJson()
     {
-        if (!File.Exists(jsonPath))
-        {
-            File.Create(jsonPath);
-        }
         string json = JsonUtility.ToJson(leaderBoard, true);
-        File.WriteAllText(jsonPath, json);
+        PlayerPrefs.SetString("json", json);
+        PlayerPrefs.Save();
     }
     // Update is called once per frame
     void Update()

@@ -15,7 +15,7 @@ MonoBehaviour:
   m_GroupName: Sound
   m_Data:
     m_SerializedData: []
-  m_GUID: e4d4618097f6f8e41972b8a46cd01fbe
+  m_GUID: 0025c8157b2de68409feeadac697abbb
   m_SerializeEntries:
   - m_GUID: 061614c4259c0c84ea62505afb077119
     m_Address: sfx_battle_bonusBoomerang
@@ -71,6 +71,10 @@ MonoBehaviour:
     m_SerializedLabels: []
   - m_GUID: 7c9203a1f5427b2449f01f2ea8ff67d2
     m_Address: sfx_battle_switchGun
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: da01fe438d999d04baf6248d74c83986
+    m_Address: sfx_consume
     m_ReadOnly: 0
     m_SerializedLabels: []
   - m_GUID: cc232ff9b4feccd47b907196118a00e7

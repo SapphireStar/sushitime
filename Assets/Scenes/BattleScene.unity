@@ -1797,7 +1797,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2670208430911793042, guid: 6085f6ee56eee8142a4295a5244e8dc1, type: 3}
       propertyPath: RightOrderIncrease
-      value: 60
+      value: 80
       objectReference: {fileID: 0}
     - target: {fileID: 3985660989088811337, guid: 6085f6ee56eee8142a4295a5244e8dc1, type: 3}
       propertyPath: m_IsActive
@@ -4463,7 +4463,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2670208430911793042, guid: 6085f6ee56eee8142a4295a5244e8dc1, type: 3}
       propertyPath: RightOrderIncrease
-      value: 60
+      value: 80
       objectReference: {fileID: 0}
     - target: {fileID: 3985660989088811337, guid: 6085f6ee56eee8142a4295a5244e8dc1, type: 3}
       propertyPath: m_IsActive
@@ -5571,7 +5571,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2670208430911793042, guid: 6085f6ee56eee8142a4295a5244e8dc1, type: 3}
       propertyPath: RightOrderIncrease
-      value: 60
+      value: 80
       objectReference: {fileID: 0}
     - target: {fileID: 2670208430911793042, guid: 6085f6ee56eee8142a4295a5244e8dc1, type: 3}
       propertyPath: SushiDeliverWaypoints.Array.size
